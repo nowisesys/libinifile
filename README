@@ -1,0 +1,16 @@
+Configuration file parser with syntax validation. It parses configuration
+files that uses the ini-file format (i.e. smb.conf):
+
+# First section:
+[section 1]
+key1 = val1
+key2 = val2
+
+# Second section:
+[section 2]
+key3 = val3
+
+Each entry in the file is retrieved as an triple with current section, the
+keyword and an optional value for that keyword filled in.
+
+Anders Lövgren, 2006-08-29

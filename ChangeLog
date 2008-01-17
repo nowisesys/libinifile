@@ -1,0 +1,9 @@
+0.2.0 (2008-01-16):
+
+      * Added C-source version of the library. The library was written in
+        C++ originally. The C++ version of the library is in directory cxx 
+	and is conditionally built by configure the source with --enable-c++
+	and installed as libinifile_cxx (both shared and static by default).
+      
+      * Added manual pages for the C-library version of libinifile.
+      
