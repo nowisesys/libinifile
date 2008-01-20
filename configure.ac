@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.61)
-AC_INIT(libinifile, 0.2.0, [Anders Lövgren <lespaul@algonet.se>])
-AM_INIT_AUTOMAKE(libinifile, 0.2.0)
+AC_INIT(libinifile, 0.2.1, [Anders Lövgren <lespaul@algonet.se>])
+AM_INIT_AUTOMAKE(libinifile, 0.2.1)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 
@@ -60,14 +60,19 @@ AC_CHECK_FUNCS([getline memmove memset])
 if test "x$ac_cv_func_getline" != "xyes"; then
   AC_LIBOBJ(getdelim)
 fi
-    
-# Check if test programs should be built
-LIBINIFILE_ENABLE_TESTS
-AM_CONDITIONAL(BUILD_INIFILE_TESTS, test x${libinifile_build_test} = xtrue)
 
 # Check if C++ library should be built.
 LIBINIFILE_ENABLE_CXXLIB
 AM_CONDITIONAL(BUILD_INIFILE_CXXLIB, test x${libinifile_build_cxxlib} = xtrue)
+
+# Check if test programs should be built
+LIBINIFILE_ENABLE_TESTS
+build_inifile_tests_cxx=false
+if test x${libinifile_build_test} = xtrue -a x${libinifile_build_cxxlib} = xtrue; then
+  build_inifile_tests_cxx=true
+fi
+AM_CONDITIONAL(BUILD_INIFILE_TESTS, test x${libinifile_build_test} = xtrue)
+AM_CONDITIONAL(BUILD_INIFILE_TESTS_CXX, test x${build_inifile_tests_cxx} = xtrue)
 
 AC_CONFIG_FILES([Makefile
 		 src/Makefile
