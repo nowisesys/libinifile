@@ -116,6 +116,12 @@ void inifile_set_error(struct inifile *,
 		       unsigned int pos,
 		       const char *fmt, ...);
 
+/*
+ * Remove leading and trailing whitespace characters from
+ * string pointed to by str.
+ */
+char * inifile_trim_str(char *str);
+
 #if !defined(HAVE_GETLINE) || !defined(HAVE_GETDELIM)
 ssize_t rpl_getdelim(char **lineptr, size_t *n, int delim, FILE *stream);
 # if !defined(HAVE_GETDELIM)

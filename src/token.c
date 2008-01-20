@@ -32,61 +32,18 @@
 #include "common.h"
 
 /*
- * Remove leading and trailing whitespace characters from
- * string pointed to by str.
- */
-static char * token_trim_str(char *str)
-{
-	size_t start, end, length, i;
-	
-	if(!str || str[0] == '\0') {
-		return str;
-	}
-	start = 0;
-	end = strlen(str);
-	
-	while(isspace(str[end - 1])) {
-		--end;
-	}
-	while(isspace(str[start])) {
-		++start;
-	}
-	if(start > end) {
-		str[0] = '\0';
-		return str;
-	}
-	length = end - start;
-
-	/* fprintf(stderr, "start=%d, end=%d, length=%d, str='%s'\n",  */
-	/* 	start, end, length, str); */
-	
-	/*
-	 * Note: we can't use memmove because it corrupts the pointer.
-	 */
-	
-	for(i = 0; i < length; ++i) {
-		str[i] = str[i + start];
-	}
-	for(i = end - start; i <= end; ++i) {
-		str[i] = '\0';
-	}
-
-	return str;
-}
-
-/*
  * Remove leading and trailing whitespace.
  */
 parser_entry * token_trim(parser_entry *entry)
 {
 	if(entry->sect) {
-		token_trim_str(entry->sect);
+		inifile_trim_str(entry->sect);
 	}
 	if(entry->key) {
-		token_trim_str(entry->key);
+		inifile_trim_str(entry->key);
 	}
 	if(entry->val) {
-		token_trim_str(entry->val);
+		inifile_trim_str(entry->val);
 	}
 	
 	return entry;

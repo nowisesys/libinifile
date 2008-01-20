@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <ctype.h>
 
 #include "inifile.h"
 #include "common.h"
@@ -195,4 +196,47 @@ void inifile_clear_error(struct inifile *inf)
 		free(inf->error);
 		inf->error = NULL;
 	}
+}
+
+/*
+ * Remove leading and trailing whitespace characters from
+ * string pointed to by str.
+ */
+char * inifile_trim_str(char *str)
+{
+	size_t start, end, length, i;
+	
+	if(!str || str[0] == '\0') {
+		return str;
+	}
+	start = 0;
+	end = strlen(str);
+	
+	while(isspace(str[end - 1])) {
+		--end;
+	}
+	while(isspace(str[start])) {
+		++start;
+	}
+	if(start > end) {
+		str[0] = '\0';
+		return str;
+	}
+	length = end - start;
+
+	/* fprintf(stderr, "start=%d, end=%d, length=%d, str='%s'\n",  */
+	/* 	start, end, length, str); */
+	
+	/*
+	 * Note: we can't use memmove because it corrupts the pointer.
+	 */
+	
+	for(i = 0; i < length; ++i) {
+		str[i] = str[i + start];
+	}
+	for(i = end - start; i <= end; ++i) {
+		str[i] = '\0';
+	}
+
+	return str;
 }
