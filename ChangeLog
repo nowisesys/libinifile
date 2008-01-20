@@ -12,4 +12,9 @@
       * Fixed conditional building C and C++ test depending on --enable-test
         and --enable-cxx.
 	
+      * Added better error detection in lexer and parser. Improved error
+        messages to be more fine grained.
 	
+0.3.0 (2008-01-20):
+      
+      * Added parsing options argument for inifile_init().

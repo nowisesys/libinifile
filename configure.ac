@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.61)
-AC_INIT(libinifile, 0.2.1, [Anders Lövgren <lespaul@algonet.se>])
-AM_INIT_AUTOMAKE(libinifile, 0.2.1)
+AC_INIT(libinifile, 0.3.0, [Anders Lövgren <lespaul@algonet.se>])
+AM_INIT_AUTOMAKE(libinifile, 0.3.0)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 
