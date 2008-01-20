@@ -69,7 +69,7 @@ token_data * lexer_check(struct inifile *inf, token_data *data)
 			if(data->seen == BSECT) {
 				return lexer_error(inf, data, "assignment inide section");
 			} else if(data->seen == ASSIGN) {
-				if(inf->options & INIFILE_ASSIGN_INSIDE) {
+				if(data->cls == VALUE && inf->options & INIFILE_ASSIGN_INSIDE) {
 					/* 
 					 * Allow assignment inside value.
 					 */
