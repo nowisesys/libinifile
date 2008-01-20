@@ -39,7 +39,7 @@
  * Initilize the parser. Returns 0 if successful and -1 on
  * failure. Use inifile_get_error() to get last error.
  */
-int inifile_init(struct inifile *inf, const char *conf, int options)
+int inifile_init(struct inifile *inf, const char *conf)
 {
 	memset(inf, 0, sizeof(struct inifile));
 	
@@ -64,8 +64,6 @@ int inifile_init(struct inifile *inf, const char *conf, int options)
 	inf->size = 0;
 	inf->len = 0;
 
-	inf->options = options;
-	
 	return 0;
 }
 
@@ -77,6 +75,26 @@ int inifile_init(struct inifile *inf, const char *conf, int options)
 const struct inient * inifile_parse(struct inifile *inf)
 {	
 	return (struct inient *)parser_get_next(inf);
+}
+
+/*
+ * Set parser option.
+ */
+void inifile_set_option(struct inifile *inf, int option, int value)
+{
+	if(value) {
+		inf->options |= option;
+	} else {
+		inf->options &= ~option;
+	}		
+}
+	
+/*
+ * Get parser option.
+ */
+int inifile_get_option(struct inifile *inf, int option)
+{
+	return (inf->options & option) ? 1 : 0;
 }
 
 /*

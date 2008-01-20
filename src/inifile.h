@@ -64,15 +64,17 @@ struct inifile
 };
 
 /*
- * Options for inifile_init().
+ * Options for inifile_xxx_option().
  */
-#define INIFILE_DISABLE_SYNTAX_CHECK 1    /* disable syntax check */
+#define INIFILE_CHECK_SYNTAX  1    /* syntax check */
+#define INIFILE_ALLOW_QUOTED  2    /* allow quoted strings */
+#define INIFILE_ASSIGN_INSIDE 4    /* allow s1=s2 inside values */
 	
 /*
  * Initilize the parser. Returns 0 if successful and -1 on
  * failure. Use inifile_get_error() to get last error.
  */
-int inifile_init(struct inifile *, const char *conf, int options);
+int inifile_init(struct inifile *, const char *conf);
 
 /*
  * Return next parsed ini-file entry or NULL if last call 
@@ -85,6 +87,16 @@ const struct inient * inifile_parse(struct inifile *);
  * Release memory allocated by the parser.
  */
 void inifile_free(struct inifile *);
+
+/*
+ * Set parser option.
+ */
+void inifile_set_option(struct inifile *, int option, int value);
+	
+/*
+ * Get parser option.
+ */
+int inifile_get_option(struct inifile *, int option);
 
 /*
  * Get last error or NULL if no error occured.
