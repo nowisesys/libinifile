@@ -56,7 +56,7 @@ token_data * lexer_check(struct inifile *inf, token_data *data)
 		break;
 	case BSECT:
 		if(data->seen != NONE) {
-			return lexer_error(inf, data, "begin section inside");
+			return lexer_error(inf, data, "begin section inside section");
 		}
 		break;
 	case ESECT:
