@@ -60,13 +60,19 @@ struct inifile
 	char *str;		/* parse buffer */
 	size_t size;            /* parse buffer size */
 	ssize_t len;            /* buffer string length */
+	int options;            /* parse options */
 };
 
+/*
+ * Options for inifile_init().
+ */
+#define INIFILE_DISABLE_SYNTAX_CHECK 1    /* disable syntax check */
+	
 /*
  * Initilize the parser. Returns 0 if successful and -1 on
  * failure. Use inifile_get_error() to get last error.
  */
-int inifile_init(struct inifile *, const char *conf);
+int inifile_init(struct inifile *, const char *conf, int options);
 
 /*
  * Return next parsed ini-file entry or NULL if last call 

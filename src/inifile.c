@@ -39,7 +39,7 @@
  * Initilize the parser. Returns 0 if successful and -1 on
  * failure. Use inifile_get_error() to get last error.
  */
-int inifile_init(struct inifile *inf, const char *conf)
+int inifile_init(struct inifile *inf, const char *conf, int options)
 {
 	memset(inf, 0, sizeof(struct inifile));
 	
@@ -63,6 +63,8 @@ int inifile_init(struct inifile *inf, const char *conf)
 	inf->str = NULL;
 	inf->size = 0;
 	inf->len = 0;
+
+	inf->options = options;
 	
 	return 0;
 }

@@ -105,8 +105,10 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
 		/*
 		 * Validate input
 		 */
-		if(!lexer_check(inf, data)) {
-			return PARSE_ERROR;
+		if((inf->options & INIFILE_DISABLE_SYNTAX_CHECK) == 0) {
+			if(!lexer_check(inf, data)) {
+				return PARSE_ERROR;
+			}
 		}
 		
 		switch(data->curr)
@@ -231,12 +233,14 @@ const parser_entry * parser_get_next(struct inifile *inf)
 		case PARSE_NEXT:
 			goto next;
 		case PARSE_DONE:
-			/* 
-			 * Handle syntax error that would require more context (i.e. look-ahead) 
-			 * than whats available to the lexer when its doing its syntax check.
-			 */
-			if(data.seen == ASSIGN && strlen(inf->entry->val) == 0) {
-				return parser_error(inf, &data, "assign without value");
+			if((inf->options & INIFILE_DISABLE_SYNTAX_CHECK) == 0) {
+				/* 
+				 * Handle syntax error that would require more context (i.e. look-ahead) 
+				 * than whats available to the lexer when its doing its syntax check.
+				 */
+				if(data.seen == ASSIGN && strlen(inf->entry->val) == 0) {
+					return parser_error(inf, &data, "assign without value");
+				}
 			}
 			return inf->entry;
 		}
