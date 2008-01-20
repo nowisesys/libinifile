@@ -66,7 +66,15 @@ token_data * lexer_check(struct inifile *inf, token_data *data)
 		break;
 	case ASSIGN:
 		if(data->seen != NONE) {
-			return lexer_error(inf, data, "assignment without data");
+			if(data->seen == BSECT) {
+				return lexer_error(inf, data, "assignment inide section");
+			} else if(data->seen == ASSIGN) {
+				return lexer_error(inf, data, "dual assignment detected (misstype?)");
+			} else if(data->seen == ESECT) {
+				return lexer_error(inf, data, "assignment to section");
+			} else {
+				return lexer_error(inf, data, "assignment without keyword");
+			}
 		}
 		if(data->cls != KEYWORD) {
 			return lexer_error(inf, data, "assignment to non-keyword");
@@ -77,7 +85,11 @@ token_data * lexer_check(struct inifile *inf, token_data *data)
 		   data->seen != ESECT &&
 		   data->seen != NONE &&
 		   data->seen != QUOTE) {
-			return lexer_error(inf, data, "unexpected end of string");
+			if(data->seen == BSECT) {
+				return lexer_error(inf, data, "end of string while looking for matching end of section");
+			} else {
+				return lexer_error(inf, data, "unexpected end of string");
+			}
 		}
 		if(data->seen == QUOTE) {
 			if(!data->quote.ech) {
