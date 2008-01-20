@@ -24,9 +24,10 @@
 # include "config.h"
 #endif
 
+#include <stdio.h>
 #include <unistd.h>
 
-#include "alived.h"
+#include "common.h"
 
 #ifdef BUFFER_ALLOC_CHUNK
 # undef BUFFER_ALLOC_CHUNK
@@ -44,30 +45,25 @@ ssize_t rpl_getdelim(char **buff, size_t *size, int delim, FILE *stream)
 	size_t n = 0;
 	
 	if(feof(stream)) {
-		debug("EOF on stream");
 		errno = EINVAL;
 		return -1;
 	}
 	
 	if(!size) {
-		debug("size is NULL");
 		errno = EINVAL;
 		return -1;
 	}
 	
 	if(!*buff && *size != 0) {
-		debug("buffer NULL, but size is non-zero");
 		*size = 0;
 	}
 	if(*size == 0 && *buff) {
-		debug("size is zero, but buffer is not NULL");
 		free(*buff);
 		*buff = NULL;
 	}
 	
 	while((c = getc(stream)) != EOF) {
 		if(n == (*size + 1) || *size == 0) {
-			debug("realloc (size=%d, pos=%d)", *size, n);
 			ungetc(c, stream);
 			*size += BUFFER_ALLOC_CHUNK;
 			*buff = realloc(*buff, *size);     
@@ -78,7 +74,6 @@ ssize_t rpl_getdelim(char **buff, size_t *size, int delim, FILE *stream)
 			continue;      /* retry */
 		}
 		if(c == delim) {
-			debug("found delimiter at position %d", n);
 			(*buff)[n++] = c;
 			(*buff)[n] = '\0';
 			break;
