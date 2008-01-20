@@ -32,23 +32,44 @@
 # include <stdio.h>
 #endif
 #include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
 
 #include "common.h"
-
-/*
- * Set DEBUG_PARSER to enable debug output.
- */
-#if defined(DEBUG)
-# define DEBUG_PARSER 1
-#endif
 
 #define PARSE_ERROR 1
 #define PARSE_NEXT  2
 #define PARSE_DONE  3
 
+#define PUTSTR_CHUNK 1
+
+/*
+ * Append character ch to put buffer buff.
+ */
+static char * putstr(char *buff, char ch)
+{
+	size_t pos = 0;
+
+	if(buff) {
+		pos = strlen(buff);
+	}
+
+	if((pos % PUTSTR_CHUNK) == 0) {
+		buff = realloc(buff, pos + PUTSTR_CHUNK + 1);
+		if(!buff) {
+			return NULL;
+		}
+	}
+	
+	buff[pos] = ch;
+	buff[pos + 1] = '\0';
+	
+	return buff;
+}
+
 static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *entry)
 {
-#if defined(DEBUG_PARSER) && DEBUG_PARSER == 1
+#ifdef DEBUG
 	static const char *strtoken[] = {
 		"NONE",   "BSECT",   "ESECT", "COMMENT", 
 		"ASSIGN", "WHITESP", "QUOTE", "CDATA", 
@@ -62,14 +83,14 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
 	/*
 	 * Tokenize input string.
 	 */
-	while(token_get(data)) {
+	while(token_get(inf, data)) {
 		
-#if defined(DEBUG_PARSER) && DEBUG_PARSER == 1
-		fprintf(stderr, "(%d:%d): char=%c, seen=%s, curr=%s, class=%s\n",
+#ifdef DEBUG
+		fprintf(stderr, "debug: (%d:%d): char='%c', curr=%s, seen=%s, class=%s\n",
 			data->line, data->pos, 
-			data->str[data->pos], 
-			strtoken[data->seen],
+			isprint(inf->str[data->pos]) ? inf->str[data->pos] : ' ', 
 			strtoken[data->curr],
+			strtoken[data->seen],
 			strclass[data->cls]);
 #endif
 		/*
@@ -78,11 +99,14 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
 		if(!lexer_check(inf, data)) {
 			return PARSE_ERROR;
 		}
-				
+		
 		switch(data->curr)
 		{
 		case BSECT:				/* Begin section */
-			entry->sect = NULL;
+			if(entry->sect) {
+				free(entry->sect);
+				entry->sect = NULL;
+			}
 			break;
 		case ESECT:				/* End section */
 			break;
@@ -106,18 +130,20 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
 		case WHITESP:
 			if(data->seen == BSECT) {
 				data->cls = SECTION;
-				entry->sect += data->str[data->pos];
+				entry->sect = putstr(entry->sect, inf->str[data->pos]);
 			} else if(data->seen == ASSIGN ||
 				  data->seen == QUOTE) {
 				data->cls = VALUE;
-				entry->val += data->str[data->pos];
+				entry->val = putstr(entry->val, inf->str[data->pos]);
 			} else {
 				data->cls = KEYWORD;
-				entry->key += data->str[data->pos];
+				entry->key = putstr(entry->key, inf->str[data->pos]);
 			}
 			break;
-		case NONE:				/* Ignore */
 		case ASSIGN:				/* Ignore */
+			token_trim(entry);
+			break;
+		case NONE:				/* Ignore */
 		case QUOTE:				/* Ignore */
 			break;
 		}
@@ -143,26 +169,30 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
  */
 const parser_entry * parser_get_next(struct inifile *inf)
 {
-	char *buff = NULL;
-	size_t size = 0;
+	token_data data;
 	
 	/*
 	 * Label where we continue if EOS is found.
 	 */
 	next:
-		
+	
 	/*
 	 * Reset scan data.
 	 */
-	inf->entry->key = NULL;
-	inf->entry->val = NULL;
+	if(inf->entry->key) {
+		free(inf->entry->key);
+		inf->entry->key = NULL;
+	}
+	if(inf->entry->val) {
+		free(inf->entry->val);
+		inf->entry->val = NULL;
+	}
 		
 	/*
 	 * Get next line from input stream.
 	 */
-	while(getline(&buff, &size, inf->fs) != -1) {
-		token_data data;
-					
+	while((inf->len = getline(&(inf->str), &(inf->size), inf->fs)) != -1) {
+		
 		/*
 		 * Count up one more line.
 		 */
@@ -171,19 +201,22 @@ const parser_entry * parser_get_next(struct inifile *inf)
 		/*
 		 * Skip empty and commented lines.
 		 */
-		if(buff[0] == '\n' || buff[0] == '#') {
+		if(inf->str[0] == '\n' || inf->str[0] == '#') {
 			continue;
+		}
+		if(inf->str[inf->len - 1] == '\n') {
+			inf->str[inf->len - 1] = '\0';
 		}
 
 		/*
 		 * Fill line scanning data object.
 		 */
-		data.str  = buff;
 		data.pos  = 0;
 		data.line = inf->entry->line;
 		data.curr = NONE;
 		data.seen = NONE;
 		data.cls  = GLOBAL;
+		memset(&data.quote, 0, sizeof(token_quote));
 		
 		switch(parser_tokenize(inf, &data, inf->entry)) {
 		case PARSE_ERROR:

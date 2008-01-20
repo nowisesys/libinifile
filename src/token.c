@@ -37,26 +37,39 @@
  */
 static char * token_trim_str(char *str)
 {
-	size_t start = 0;
-	size_t length = 0;
-	size_t size = strlen(str);
-	register char *pp = str;
+	size_t start, end, length, i;
 	
-	if(size == 0) {
+	if(!str || str[0] == '\0') {
 		return str;
 	}
+	start = 0;
+	end = strlen(str);
 	
-	while(*pp && isspace(*pp)) {
-		start++;
-		++pp;
+	while(isspace(str[end - 1])) {
+		--end;
 	}
-	while(*pp && !isspace(*pp)) {
-		length++;
-		++pp;
+	while(isspace(str[start])) {
+		++start;
 	}
+	if(start > end) {
+		str[0] = '\0';
+		return str;
+	}
+	length = end - start;
+
+	/* fprintf(stderr, "start=%d, end=%d, length=%d, str='%s'\n",  */
+	/* 	start, end, length, str); */
 	
-	memmove(str, str + start, length);
-	memset(str + length, '\0', size - length);
+	/*
+	 * Note: we can't use memmove because it corrupts the pointer.
+	 */
+	
+	for(i = 0; i < length; ++i) {
+		str[i] = str[i + start];
+	}
+	for(i = end - start; i <= end; ++i) {
+		str[i] = '\0';
+	}
 
 	return str;
 }
@@ -82,29 +95,29 @@ parser_entry * token_trim(parser_entry *entry)
 /*
  * Returns next token from input data.
  */
-int token_get(token_data *data)
+int token_get(struct inifile *inf, token_data *data)
 {	
 	if(data->quote.sch) {
 		/*
 		 * Parsing quoted string.
 		 */
-		switch(data->str[data->pos]) {
+		switch(inf->str[data->pos]) {
 		case '"':
 		case '\'':
 			/*
 			 * Matched end quote character.
 			 */
 			data->curr = QUOTE;
-			data->quote.ech = data->str[data->pos];
+			data->quote.ech = inf->str[data->pos];
 			data->quote.num++;
 			break;
 		default:
 			/*
 			 * Treat all input as data inside quoted string.
 			 */
-			if(!strlen(data->str) || data->pos == strlen(data->str)) {
+			if(!strlen(inf->str) || data->pos == inf->len) {
 				data->curr = EOSTR;
-			} else if(isspace(data->str[data->pos])) {
+			} else if(isspace(inf->str[data->pos])) {
 				data->curr = WHITESP;
 			} else {
 				data->curr = CDATA;
@@ -112,7 +125,7 @@ int token_get(token_data *data)
 			break;
 		}
 	} else {
-		switch(data->str[data->pos]) {
+		switch(inf->str[data->pos]) {
 		case '[':
 			data->curr = BSECT;
 			break;
@@ -128,13 +141,13 @@ int token_get(token_data *data)
 		case '"':
 		case '\'':
 			data->curr = QUOTE;
-			data->quote.sch = data->str[data->pos];
+			data->quote.sch = inf->str[data->pos];
 			data->quote.num++;
 			break;
 		default:
-			if(!strlen(data->str) || data->pos == strlen(data->str)) {
+			if(!strlen(inf->str) || data->pos == inf->len) {
 				data->curr = EOSTR;
-			} else if(isspace(data->str[data->pos])) {
+			} else if(isspace(inf->str[data->pos])) {
 				data->curr = WHITESP;
 			} else {
 				data->curr = CDATA;

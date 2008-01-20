@@ -57,6 +57,9 @@ struct inifile
 	const char *file;       /* ini-file path */
 	struct inient *entry;   /* current entry */
 	struct inierr *error;   /* last error */
+	char *str;		/* parse buffer */
+	size_t size;            /* parse buffer size */
+	ssize_t len;            /* buffer string length */
 };
 
 /*

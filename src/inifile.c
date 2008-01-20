@@ -42,7 +42,8 @@ int inifile_init(struct inifile *inf, const char *conf)
 {
 	memset(inf, 0, sizeof(struct inifile));
 	
-	inf->file = conf;
+	inf->file = conf;	
+
 	inf->fs = fopen(inf->file, "r");
 	if(!inf->fs) {
 		inifile_set_error(inf, 0, 0, "failed open %s", inf->file);
@@ -54,6 +55,13 @@ int inifile_init(struct inifile *inf, const char *conf)
 		inifile_set_error(inf, 0, 0, "failed alloc memory");
 		return -1;
 	}
+	inf->entry->sect = NULL;
+	inf->entry->key = NULL;
+	inf->entry->val = NULL;
+
+	inf->str = NULL;
+	inf->size = 0;
+	inf->len = 0;
 	
 	return 0;
 }
@@ -78,12 +86,30 @@ void inifile_free(struct inifile *inf)
 		inf->fs = NULL;
 	}
 	if(inf->entry) {
+		if(inf->entry->sect) {
+			free(inf->entry->sect);
+			inf->entry->sect = NULL;
+		}
+		if(inf->entry->key) {
+			free(inf->entry->key);
+			inf->entry->key = NULL;
+		}
+		if(inf->entry->val) {
+			free(inf->entry->val);
+			inf->entry->val = NULL;
+		}
 		free(inf->entry);
 		inf->entry = NULL;
 	}
 	if(inf->error) {
 		free(inf->error);
 		inf->error = NULL;
+	}
+	if(inf->str) {
+		free(inf->str);
+		inf->str = NULL;
+		inf->len = 0;
+		inf->size = 0;
 	}
 }
 
@@ -113,7 +139,12 @@ void inifile_set_error(struct inifile *inf,
 		if(!inf->error) {
 			return;
 		}
-		inf->error->msg = NULL;
+		inf->error->msg = malloc(size);
+		if(!inf->error->msg) {
+			free(inf->error);
+			inf->error = NULL;
+			return;
+		}
 	}
 	
 	inf->error->line = line;

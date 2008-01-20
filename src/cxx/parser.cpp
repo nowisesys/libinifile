@@ -112,7 +112,7 @@ namespace inifile
 			{	
 #if defined(DEBUG_PARSER) && DEBUG_PARSER == 1
 				std::cerr << "(" << data.line << ":" << data.pos << "):"
-					<< "\tchar = '" << data.str[data.pos] << "'"
+					<< "\tchar = '" << (isprint(data.str[data.pos]) ? data.str[data.pos] : ' ') << "'"
 					<< "\tseen = " << strtoken[data.seen]
 					<< "\tcurr = " << strtoken[data.curr]
 					<< "\tclass = " << strclass[data.cls]
