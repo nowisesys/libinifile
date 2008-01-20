@@ -68,24 +68,26 @@ A small example showing how to parse an ini-file:
 .nf
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <inifile.h>
 
 static void die(struct inifile *inf)
 {
 	inierr *error = inifile_get_error(inf);
-	fprintf(stderr, "%s: %s\n", CONFIG, inf->file, error->msg);
+        fprintf(stderr, "%s(%d:%d): %s\\n", 
+	        inf->file, error->line, error->pos, error->msg);
 	exit(1);
 }
 
 int main(int argc, char **argv)
 {
-	inifile inf;
-	inient *ent;
+	struct inifile inf;
+	const struct inient *ent;
 	
 	if(inifile_init(&inf, "sample.conf") == 0) {
 		while((ent = inifile(&inf))) {
-			printf("sect=%s, key=%s, val=%s\n", 
-			ent->sect, ent->key, ent->val);
+			printf("sect=%s, key=%s, val=%s\\n", 
+			        ent->sect, ent->key, ent->val);
 		}
 		if(inifile_get_error(&inf)) {
 			die(&inf);
