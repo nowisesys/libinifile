@@ -67,6 +67,15 @@ static char * putstr(char *buff, char ch)
 	return buff;
 }
 
+/*
+ * Exception handler.
+ */
+static const parser_entry * parser_error(struct inifile *inf, token_data *data, const char *msg)
+{
+	inifile_set_error(inf, data->line, data->pos, "parse error: %s", msg);
+	return NULL;
+}
+
 static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *entry)
 {
 #ifdef DEBUG
@@ -141,8 +150,6 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
 			}
 			break;
 		case ASSIGN:				/* Ignore */
-			token_trim(entry);
-			break;
 		case NONE:				/* Ignore */
 		case QUOTE:				/* Ignore */
 			break;
@@ -187,7 +194,7 @@ const parser_entry * parser_get_next(struct inifile *inf)
 		free(inf->entry->val);
 		inf->entry->val = NULL;
 	}
-		
+	
 	/*
 	 * Get next line from input stream.
 	 */
@@ -207,7 +214,7 @@ const parser_entry * parser_get_next(struct inifile *inf)
 		if(inf->str[inf->len - 1] == '\n') {
 			inf->str[inf->len - 1] = '\0';
 		}
-
+		
 		/*
 		 * Fill line scanning data object.
 		 */
@@ -224,6 +231,13 @@ const parser_entry * parser_get_next(struct inifile *inf)
 		case PARSE_NEXT:
 			goto next;
 		case PARSE_DONE:
+			/* 
+			 * Handle syntax error that would require more context (i.e. look-ahead) 
+			 * than whats available to the lexer when its doing its syntax check.
+			 */
+			if(data.seen == ASSIGN && strlen(inf->entry->val) == 0) {
+				return parser_error(inf, &data, "assign without value");
+			}
 			return inf->entry;
 		}
 			
