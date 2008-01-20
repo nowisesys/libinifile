@@ -151,7 +151,16 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
 				entry->key = putstr(entry->key, inf->str[data->pos]);
 			}
 			break;
-		case ASSIGN:				/* Ignore */
+		case ASSIGN:
+			/*
+			 * Allow assignment inside values.
+			 */
+			if(inf->options & INIFILE_ASSIGN_INSIDE) {
+				if(data->seen == ASSIGN && data->cls == VALUE) {
+					entry->val = putstr(entry->val, inf->str[data->pos]);
+				}
+			}
+			break;
 		case NONE:				/* Ignore */
 		case QUOTE:				/* Ignore */
 			break;

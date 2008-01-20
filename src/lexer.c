@@ -69,6 +69,12 @@ token_data * lexer_check(struct inifile *inf, token_data *data)
 			if(data->seen == BSECT) {
 				return lexer_error(inf, data, "assignment inide section");
 			} else if(data->seen == ASSIGN) {
+				if(inf->options & INIFILE_ASSIGN_INSIDE) {
+					/* 
+					 * Allow assignment inside value.
+					 */
+					return data;
+				}
 				return lexer_error(inf, data, "dual assignment detected (misstype?)");
 			} else if(data->seen == ESECT) {
 				return lexer_error(inf, data, "assignment to section");
