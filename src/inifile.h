@@ -69,6 +69,8 @@ struct inifile
 #define INIFILE_CHECK_SYNTAX  1    /* syntax check */
 #define INIFILE_ALLOW_QUOTED  2    /* allow quoted strings */
 #define INIFILE_ASSIGN_INSIDE 4    /* allow s1=s2 inside values */
+
+#define INIFILE_DEFAULT_OPTIONS (INIFILE_CHECK_SYNTAX | INIFILE_ALLOW_QUOTED)
 	
 /*
  * Initilize the parser. Returns 0 if successful and -1 on

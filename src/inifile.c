@@ -64,6 +64,8 @@ int inifile_init(struct inifile *inf, const char *conf)
 	inf->size = 0;
 	inf->len = 0;
 
+	inf->options = INIFILE_DEFAULT_OPTIONS;
+	
 	return 0;
 }
 
