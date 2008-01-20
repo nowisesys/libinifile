@@ -81,9 +81,8 @@ typedef struct
 		
 typedef struct
 {
-	char *str;		  /* The string data */
-	unsigned int pos;	  /* Start position */
-	unsigned int line;	  /* Line number */
+	ssize_t pos;	          /* Start position */
+	ssize_t line;	          /* Line number */
 	int curr;		  /* Current token */
 	int seen;		  /* Saved token */
 	int cls;                  /* Classification */
@@ -93,7 +92,7 @@ typedef struct
 /* 
  * Get next TOKEN_SYMBOL 
  */
-int token_get(token_data *data);
+int token_get(struct inifile *, token_data *data);
 
 /*
  * Remove leading and trailing whitespace.
