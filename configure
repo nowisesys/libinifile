@@ -24431,11 +24431,11 @@ fi
 done
 
 
-# Add replacement for getline (GNU extensions):
+# Add replacement for getline and getdelim (GNU extensions):
 if test "x$ac_cv_func_getline" != "xyes"; then
   case " $LIBOBJS " in
-  *" getline.$ac_objext "* ) ;;
-  *) LIBOBJS="$LIBOBJS getline.$ac_objext"
+  *" getdelim.$ac_objext "* ) ;;
+  *) LIBOBJS="$LIBOBJS getdelim.$ac_objext"
  ;;
 esac
 
@@ -24503,7 +24503,7 @@ else
 fi
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile src/cxx/Makefile docs/Makefile"
+ac_config_files="$ac_config_files Makefile src/Makefile src/cxx/Makefile src/test/Makefile docs/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -25122,6 +25122,7 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "src/cxx/Makefile") CONFIG_FILES="$CONFIG_FILES src/cxx/Makefile" ;;
+    "src/test/Makefile") CONFIG_FILES="$CONFIG_FILES src/test/Makefile" ;;
     "docs/Makefile") CONFIG_FILES="$CONFIG_FILES docs/Makefile" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5

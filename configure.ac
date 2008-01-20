@@ -56,9 +56,9 @@ AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([getline memmove memset])
 
-# Add replacement for getline (GNU extensions):
+# Add replacement for getline and getdelim (GNU extensions):
 if test "x$ac_cv_func_getline" != "xyes"; then
-  AC_LIBOBJ(getline)
+  AC_LIBOBJ(getdelim)
 fi
     
 # Check if test programs should be built
@@ -72,5 +72,6 @@ AM_CONDITIONAL(BUILD_INIFILE_CXXLIB, test x${libinifile_build_cxxlib} = xtrue)
 AC_CONFIG_FILES([Makefile
 		 src/Makefile
 		 src/cxx/Makefile
+		 src/test/Makefile
 		 docs/Makefile])
 AC_OUTPUT
