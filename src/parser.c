@@ -41,7 +41,7 @@
 #define PARSE_NEXT  2
 #define PARSE_DONE  3
 
-#define PUTSTR_CHUNK 1
+#define PUTSTR_CHUNK 64
 
 /*
  * Append character ch to put buffer buff.
