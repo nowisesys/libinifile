@@ -22,3 +22,9 @@
 	o) syntax check.
 	o) quoted strings check.
 	o) assignment inside value.
+
+      * Fixed API documentation of libinifile. Adding man section 3 pages
+        for inifile_set_option(), inifile_get_option(), inifile_get_error() and
+	inifile_clear_error().
+	
+	
