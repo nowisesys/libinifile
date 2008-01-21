@@ -30,8 +30,7 @@ this format for their configuration files.
 The library implements and validating parser where syntax check is done 
 in parallell with the parsing. Use inifile_get_error() to differentiate
 between end of file condition and a parse error. Each parser has its own
-error object. Some syntax checks can be enable or disabled by calling
-inifile_set_option().
+error object. Parser option can be set by calling \fBinifile_set_option()\fP.
 .PP
 The library is initilized by calling \fBinifile_init()\fP. Call
 \fBinifile_free()\fP to release allocated memory when done parsing. Using the
@@ -74,12 +73,11 @@ inifile_get_error() to check if error.
 \fBvoid inifile_free\fI(struct inifile *);\fP
 Release memory allocated and close the ini-file.
 .TP
-\fBvoid inifile_set_option\fI(struct inifile *, int option, int value);\fP
-Sets or clears an parser option. If value is 0 then the option is cleared.
-See OPTIONS section.
+\fBvoid inifile_set_option\fI(struct inifile *, int option, const void *value);\fP
+Set parser option, see OPTIONS section for more information.
 .TP
-\fBint inifile_get_option\fI(struct inifile *, int option);\fP
-Get value of parser option. See OPTIONS section.
+\fBint inifile_get_option\fI(struct inifile *, int option, void *value);\fP
+Get parser option, see OPTIONS section for more information.
 .TP
 \fBconst struct inierr * inifile_get_error\fI(struct inifile *);\fP
 Get last error or NULL if no error occured.
@@ -88,16 +86,22 @@ Get last error or NULL if no error occured.
 Clear last error object.
 .SH OPTIONS
 Possible values for the option argument to inifile_set_option() and
-inifile_get_option() are:
+inifile_get_option() along with the in/out value type inside parentheses:
 .TP 
-\fBINIFILE_CHECK_SYNTAX\fP
+\fBINIFILE_CHECK_SYNTAX\fP (in: int *, out: int *)
 Controls whether syntax check should be done at all.
 .TP 
-\fBINIFILE_ALLOW_QUOTE\fP
+\fBINIFILE_ALLOW_QUOTE\fP (in: int *, out: int *)
 Allow quoted strings around value.
 .TP 
-\fBINIFILE_ASSIGN_INSIDE\fP
+\fBINIFILE_ASSIGN_INSIDE\fP (in: int *, out: int *)
 Allow assign characters inside value.
+.TP
+\fBINIFILE_CHARS_COMMENT\fP (in: char *, out: char **)
+Controls the set of characters identified as begin of comment (default: '#').
+.TP
+\fBINIFILE_CHARS_ASSIGN\fP (in: char *, out: char **)
+Controls the set of characters identified as assignment chars (default: '=').
 .SH EXAMPLE
 A small example showing how to parse an ini-file:
 .RS
