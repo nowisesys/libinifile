@@ -15,6 +15,10 @@
       * Added better error detection in lexer and parser. Improved error
         messages to be more fine grained.
 	
-0.3.0 (2008-01-20):
+0.3.0 (2008-01-21):
       
-      * Added parsing options argument for inifile_init().
+      * Added inifile_set_option()/inifile_get_option() to configure parser
+        options. Currently its possible to enable/disable:
+	o) syntax check.
+	o) quoted strings check.
+	o) assignment inside value.

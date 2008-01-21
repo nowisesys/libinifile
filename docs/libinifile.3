@@ -30,20 +30,37 @@ this format for their configuration files.
 The library implements and validating parser where syntax check is done 
 in parallell with the parsing. Use inifile_get_error() to differentiate
 between end of file condition and a parse error. Each parser has its own
-error object.
+error object. Some syntax checks can be enable or disabled by calling
+inifile_set_option().
+.PP
+The library is initilized by calling \fBinifile_init()\fP. Call
+\fBinifile_free()\fP to release allocated memory when done parsing. Using the
+inifile structure after inifile_free() has been called leads to undefined behavour. The
+inifile structure can be reused by calling inifile_init() again after
+calling inifile_free() first.
 .SH SUMMARY
 .RS
 .nf
 /* 
  * Structure for an entry parsed from the ini-file:
  */
-struct inient
+\fBstruct inient\fP
 {
         unsigned int line;      /* line number. */
         char *sect;             /* section name. */
         char *key;              /* entry keyword. */
         char *val;              /* entry value. */
 };
+
+/*
+ * The parse error structure returned by inifile_get_error():
+ */   
+\fBstruct inierr\fP
+{
+        unsigned int line;
+        unsigned int pos;
+        char *msg;
+};			  
 .TP
 \fBint inifile_init\fI(struct inifile *, const char *conf);\fP
 Initialise library, return 0 if successful and -1 on error. The conf
@@ -57,11 +74,30 @@ inifile_get_error() to check if error.
 \fBvoid inifile_free\fI(struct inifile *);\fP
 Release memory allocated and close the ini-file.
 .TP
+\fBvoid inifile_set_option\fI(struct inifile *, int option, int value);\fP
+Sets or clears an parser option. If value is 0 then the option is cleared.
+See OPTIONS section.
+.TP
+\fBint inifile_get_option\fI(struct inifile *, int option);\fP
+Get value of parser option. See OPTIONS section.
+.TP
 \fBconst struct inierr * inifile_get_error\fI(struct inifile *);\fP
 Get last error or NULL if no error occured.
 .TP
 \fBvoid inifile_clear_error\fI(struct inifile *);\fP
 Clear last error object.
+.SH OPTIONS
+Possible values for the option argument to inifile_set_option() and
+inifile_get_option() are:
+.TP 
+\fBINIFILE_CHECK_SYNTAX\fP
+Controls whether syntax check should be done at all.
+.TP 
+\fBINIFILE_ALLOW_QUOTE\fP
+Allow quoted strings around value.
+.TP 
+\fBINIFILE_ASSIGN_INSIDE\fP
+Allow assign characters inside value.
 .SH EXAMPLE
 A small example showing how to parse an ini-file:
 .RS
@@ -110,4 +146,4 @@ Copyright (c) 2008 Anders Lövgren
 .PP
 Distributed under the GNU General Public License.
 .SH SEE ALSO
-.BR libinifile_cxx (3)
+.BR libinifile++ (3)
