@@ -1,5 +1,4 @@
-Version 0.2.0 is the first release of libinifile. See ChangeLog for a
-complete list of new features in this version.
+Better control of how to parse the ini-file. See ChangeLog for a complete 
+list of new features in this version.
 
 Anders Lövgren, 2008-01-16
-
