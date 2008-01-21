@@ -1,4 +1,4 @@
-Better control of how to parse the ini-file. See ChangeLog for a complete 
-list of new features in this version.
+Adding pkg-config interface for other packages to link against this library.
+See ChangeLog for a complete list of new features in this version.
 
 Anders Lövgren, 2008-01-16

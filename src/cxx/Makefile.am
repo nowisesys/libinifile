@@ -1,3 +1,8 @@
+EXTRA_DIST = libinifile++.pc libinifile++.pc.in
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libinifile++.pc
+
 lib_LTLIBRARIES = libinifile++.la
 libinifile___la_SOURCES = \
 	   parser.cpp inifile++/parser.hpp lexer.cpp inifile++/lexer.hpp \

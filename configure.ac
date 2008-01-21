@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.61)
-AC_INIT(libinifile, 0.4.0, [Anders Lövgren <lespaul@algonet.se>])
-AM_INIT_AUTOMAKE(libinifile, 0.4.0)
+AC_INIT(libinifile, 0.4.1, [Anders Lövgren <lespaul@algonet.se>])
+AM_INIT_AUTOMAKE(libinifile, 0.4.1)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 
@@ -78,5 +78,7 @@ AC_CONFIG_FILES([Makefile
 		 src/Makefile
 		 src/cxx/Makefile
 		 src/test/Makefile
-		 docs/Makefile])
+		 docs/Makefile
+		 src/libinifile.pc
+		 src/cxx/libinifile++.pc])
 AC_OUTPUT

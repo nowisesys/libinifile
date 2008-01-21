@@ -32,3 +32,7 @@
       * Modified API inifile_xxx_option() to allow caller to change the set
         of characters to treat as comment start and assignment characters.
 	
+0.4.1 (2008-01-21):
+
+      * Adding pkg-config interface for other packages to link against this
+        library.
