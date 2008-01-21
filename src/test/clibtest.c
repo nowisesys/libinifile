@@ -59,6 +59,9 @@ int main(int argc, char **argv)
 		if(!inifile_get_option(&inf, INIFILE_ASSIGN_INSIDE)) {
 			inifile_set_option(&inf, INIFILE_ASSIGN_INSIDE, 1);
 		}
+		if(inifile_get_option(&inf, INIFILE_ALLOW_QUOTE)) {
+			inifile_set_option(&inf, INIFILE_ALLOW_QUOTE, 0);
+		}
 		while((ent = inifile_parse(&inf))) {
 			printf("sect='%s', key='%s', val='%s'\n",
 			       ent->sect, ent->key, ent->val);

@@ -44,6 +44,9 @@ token_data * lexer_check(struct inifile *inf, token_data *data)
 {
 	switch(data->curr) {
 	case QUOTE:
+		if((inf->options & INIFILE_ALLOW_QUOTE) == 0) {
+			return lexer_error(inf, data, "quoted strings is not allowed");
+		}
 		if(data->seen == QUOTE) {
 			if(data->quote.sch != data->quote.ech) {
 				return lexer_error(inf, data, "unbalanced quoted string");
