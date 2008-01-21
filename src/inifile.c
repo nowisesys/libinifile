@@ -142,9 +142,11 @@ int inifile_get_option(struct inifile *inf, int option, void *value)
 		int *optval = (int *)value;
 		*optval = (inf->options & option) ? 1 : 0;
 	} else if(option == INIFILE_CHARS_COMMENT) {
-		value = &(inf->comment);
+		char **optval = (char **)value;
+		*optval = inf->comment;
 	} else if(option == INIFILE_CHARS_ASSIGN) {
-		value = &(inf->assign);
+		char **optval = (char **)value;
+		*optval = inf->assign;
 	} else {
 		inifile_set_error(inf, 0, 0, "unknown option %d", option);
 		return -1;
