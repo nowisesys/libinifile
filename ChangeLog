@@ -27,4 +27,8 @@
         for inifile_set_option(), inifile_get_option(), inifile_get_error() and
 	inifile_clear_error().
 	
+0.4.0 (2008-01-21):
+
+      * Modified API inifile_xxx_option() to allow caller to change the set
+        of characters to treat as comment start and assignment characters.
 	
