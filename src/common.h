@@ -84,6 +84,7 @@ typedef struct
 	ssize_t pos;	          /* Start position */
 	ssize_t line;	          /* Line number */
 	int curr;		  /* Current token */
+	int prev;                 /* Previous token */
 	int seen;		  /* Saved token */
 	int cls;                  /* Classification */
 	token_quote quote;	  /* Quote string */

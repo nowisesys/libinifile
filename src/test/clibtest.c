@@ -42,6 +42,45 @@ static void die(struct inifile *inf)
 	exit(1);
 }
 
+static void set_options(struct inifile *inf)
+{
+	int value;
+	char *pp;
+	
+	if(inifile_get_option(inf, INIFILE_ASSIGN_INSIDE, &value) < 0) {
+		fprintf(stderr, "failed get option value of INIFILE_ASSIGN_INSIDE");
+		exit(1);
+	}
+	if(value == 0) {
+		value = 1;
+		if(inifile_set_option(inf, INIFILE_ASSIGN_INSIDE, &value) < 0) {
+			fprintf(stderr, "failed set option value of INIFILE_ASSIGN_INSIDE");
+			exit(1);
+		}
+	}
+		
+	if(inifile_get_option(inf, INIFILE_ALLOW_QUOTE, &value) < 0) {
+		fprintf(stderr, "failed get option value of INIFILE_ALLOW_QUOTE");
+		exit(1);
+	}
+	if(value == 0) {
+		value = 0;
+		if(inifile_set_option(inf, INIFILE_ALLOW_QUOTE, &value) < 0) {
+			fprintf(stderr, "failed set option value of INIFILE_ALLOW_QUOTE");
+			exit(1);
+		}
+	}
+	
+	if(inifile_get_option(inf, INIFILE_CHARS_COMMENT, &pp) < 0) {
+		fprintf(stderr, "failed get comment chars");
+		exit(1);
+	}
+	if(inifile_set_option(inf, INIFILE_CHARS_COMMENT, "#;") < 0) {
+		fprintf(stderr, "failed set comment chars");
+		exit(1);
+	}
+}
+
 int main(int argc, char **argv)
 {
 	struct inifile inf;
@@ -56,12 +95,7 @@ int main(int argc, char **argv)
 	}
 	
 	if(inifile_init(&inf, argv[1]) == 0) {
-		if(!inifile_get_option(&inf, INIFILE_ASSIGN_INSIDE)) {
-			inifile_set_option(&inf, INIFILE_ASSIGN_INSIDE, 1);
-		}
-		if(inifile_get_option(&inf, INIFILE_ALLOW_QUOTE)) {
-			inifile_set_option(&inf, INIFILE_ALLOW_QUOTE, 0);
-		}
+		set_options(&inf);
 		while((ent = inifile_parse(&inf))) {
 			printf("sect='%s', key='%s', val='%s'\n",
 			       ent->sect, ent->key, ent->val);

@@ -66,6 +66,20 @@ int inifile_init(struct inifile *inf, const char *conf)
 
 	inf->options = INIFILE_DEFAULT_OPTIONS;
 	
+	inf->comment = malloc(strlen(INIFILE_DEFIDS_COMMENT) + 1);
+	if(!inf->comment) {
+		inifile_set_error(inf, 0, 0, "failed alloc memory");
+		return -1;
+	}
+	strcpy(inf->comment, INIFILE_DEFIDS_COMMENT);
+	
+	inf->assign = malloc(strlen(INIFILE_DEFIDS_ASSIGN) + 1);
+	if(!inf->assign) {
+		inifile_set_error(inf, 0, 0, "failed alloc memory");
+		return -1;
+	}
+	strcpy(inf->assign, INIFILE_DEFIDS_ASSIGN);
+	
 	return 0;
 }
 
@@ -82,21 +96,61 @@ const struct inient * inifile_parse(struct inifile *inf)
 /*
  * Set parser option.
  */
-void inifile_set_option(struct inifile *inf, int option, int value)
+int inifile_set_option(struct inifile *inf, int option, const void *value)
 {
-	if(value) {
-		inf->options |= option;
+	if(option == INIFILE_CHECK_SYNTAX ||
+	   option == INIFILE_ALLOW_QUOTE  ||
+	   option == INIFILE_ASSIGN_INSIDE) {
+		const int *optval = (const int *)value;
+		if(*optval) {
+			inf->options |= option;
+		} else {
+			inf->options &= ~option;
+		}		
+	} else if(option == INIFILE_CHARS_COMMENT) {
+		const char *optval = (const char *)value;
+		inf->comment = realloc(inf->comment, strlen(optval) + 1);
+		if(!inf->comment) {
+			inifile_set_error(inf, 0, 0, "failed alloc memory");
+			return -1;
+		}
+		strcpy(inf->comment, optval);
+	} else if(option == INIFILE_CHARS_ASSIGN) {
+		const char *optval = (const char *)value;
+		inf->assign = realloc(inf->assign, strlen(optval) + 1);
+		if(!inf->assign) {
+			inifile_set_error(inf, 0, 0, "failed alloc memory");
+			return -1;
+		}
+		strcpy(inf->assign, optval);
 	} else {
-		inf->options &= ~option;
-	}		
+		inifile_set_error(inf, 0, 0, "unknown option %d", option);
+		return -1;
+	}
+	
+	return 0;
 }
 	
 /*
  * Get parser option.
  */
-int inifile_get_option(struct inifile *inf, int option)
+int inifile_get_option(struct inifile *inf, int option, void *value)
 {
-	return (inf->options & option) ? 1 : 0;
+	if(option == INIFILE_CHECK_SYNTAX ||
+	   option == INIFILE_ALLOW_QUOTE  ||
+	   option == INIFILE_ASSIGN_INSIDE) {
+		int *optval = (int *)value;
+		*optval = (inf->options & option) ? 1 : 0;
+	} else if(option == INIFILE_CHARS_COMMENT) {
+		value = &(inf->comment);
+	} else if(option == INIFILE_CHARS_ASSIGN) {
+		value = &(inf->assign);
+	} else {
+		inifile_set_error(inf, 0, 0, "unknown option %d", option);
+		return -1;
+	}
+	
+	return 0;
 }
 
 /*
@@ -133,6 +187,14 @@ void inifile_free(struct inifile *inf)
 		inf->str = NULL;
 		inf->len = 0;
 		inf->size = 0;
+	}	
+	if(inf->comment) {
+		free(inf->comment);
+		inf->comment = NULL;
+	}
+	if(inf->assign) {
+		free(inf->assign);
+		inf->assign = NULL;
 	}
 }
 

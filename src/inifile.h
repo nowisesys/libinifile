@@ -61,6 +61,8 @@ struct inifile
 	size_t size;            /* parse buffer size */
 	ssize_t len;            /* buffer string length */
 	int options;            /* parse options */
+	char *comment;          /* comment chars */
+	char *assign;           /* assign chars */
 };
 
 /*
@@ -70,8 +72,17 @@ struct inifile
 #define INIFILE_ALLOW_QUOTE   2    /* allow quoted strings */
 #define INIFILE_ASSIGN_INSIDE 4    /* allow s1=s2 inside values */
 
-#define INIFILE_DEFAULT_OPTIONS (INIFILE_CHECK_SYNTAX | INIFILE_ALLOW_QUOTE)
+#define INIFILE_CHARS_COMMENT 256  /* get/set comment chars */
+#define INIFILE_CHARS_ASSIGN  512  /* get/set assignment chars */
 	
+#define INIFILE_DEFAULT_OPTIONS (INIFILE_CHECK_SYNTAX | INIFILE_ALLOW_QUOTE)
+
+/*
+ * Default comment chars and assignment chars.
+ */
+#define INIFILE_DEFIDS_COMMENT "#" /* default comment chars */
+#define INIFILE_DEFIDS_ASSIGN  "=" /* default assignment chars */
+
 /*
  * Initilize the parser. Returns 0 if successful and -1 on
  * failure. Use inifile_get_error() to get last error.
@@ -91,14 +102,16 @@ const struct inient * inifile_parse(struct inifile *);
 void inifile_free(struct inifile *);
 
 /*
- * Set parser option.
+ * Set parser option. Returns 0 if successful and -1 on error. Use 
+ * inifile_get_error() to check the cause of failure.
  */
-void inifile_set_option(struct inifile *, int option, int value);
+int inifile_set_option(struct inifile *, int option, const void *value);
 	
 /*
- * Get parser option.
+ * Get parser option. Returns 0 if successful and -1 on error. Use 
+ * inifile_get_error() to check the cause of failure.
  */
-int inifile_get_option(struct inifile *, int option);
+int inifile_get_option(struct inifile *, int option, void *value);
 
 /*
  * Get last error or NULL if no error occured.

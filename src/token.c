@@ -89,12 +89,6 @@ int token_get(struct inifile *inf, token_data *data)
 		case ']':
 			data->curr = ESECT;
 			break;
-		case '#':
-			data->curr = COMMENT;
-			break;
-		case '=':
-			data->curr = ASSIGN;
-			break;
 		case '"':
 		case '\'':
 			data->curr = QUOTE;
@@ -102,12 +96,24 @@ int token_get(struct inifile *inf, token_data *data)
 			data->quote.num++;
 			break;
 		default:
-			if(!strlen(inf->str) || data->pos == inf->len) {
+			if(strlen(inf->str) == 0 || inf->str[data->pos] == 0 || data->pos == inf->len) {
 				data->curr = EOSTR;
 			} else if(isspace(inf->str[data->pos])) {
 				data->curr = WHITESP;
 			} else {
-				data->curr = CDATA;
+				/*
+				 * Force at least one whitespace before comment to prevent legitime
+				 * comment chars inside value to be treated as start of a comment. 
+				 * For example smb.conf uses ';' to separate hosts (inside value), but
+				 * also use ';' for comments.
+				 */
+				if(strchr(inf->comment, inf->str[data->pos]) && data->prev == WHITESP) {
+					data->curr = COMMENT;
+				} else if(strchr(inf->assign, inf->str[data->pos])) {
+					data->curr = ASSIGN;
+				} else {
+					data->curr = CDATA;
+				}
 			}
 			break;
 		}

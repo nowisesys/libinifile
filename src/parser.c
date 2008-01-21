@@ -95,12 +95,13 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
 	while(token_get(inf, data)) {
 		
 #ifdef DEBUG
-		fprintf(stderr, "debug: (%d:%d): char='%c', curr=%s, seen=%s, class=%s\n",
-			data->line, data->pos, 
-			isprint(inf->str[data->pos]) ? inf->str[data->pos] : ' ', 
-			strtoken[data->curr],
-			strtoken[data->seen],
-			strclass[data->cls]);
+		printf("debug: (%d:%d): char='%c', curr=%s, prev=%s, seen=%s, class=%s\n",
+		       data->line, data->pos, 
+		       isprint(inf->str[data->pos]) ? inf->str[data->pos] : ' ', 
+		       strtoken[data->curr],
+		       strtoken[data->prev],
+		       strtoken[data->seen],
+		       strclass[data->cls]);
 #endif
 		/*
 		 * Validate input
@@ -172,6 +173,7 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
 		if(data->curr != CDATA && data->curr != WHITESP) {
 			data->seen = data->curr;
 		}
+		data->prev = data->curr;
 		
 		/*
 		 * Move to next char.
@@ -219,7 +221,7 @@ const parser_entry * parser_get_next(struct inifile *inf)
 		/*
 		 * Skip empty and commented lines.
 		 */
-		if(inf->str[0] == '\n' || inf->str[0] == '#') {
+		if(inf->str[0] == '\n' || strchr(inf->comment, inf->str[0])) {
 			continue;
 		}
 		if(inf->str[inf->len - 1] == '\n') {
@@ -232,6 +234,7 @@ const parser_entry * parser_get_next(struct inifile *inf)
 		data.pos  = 0;
 		data.line = inf->entry->line;
 		data.curr = NONE;
+		data.prev = NONE;
 		data.seen = NONE;
 		data.cls  = GLOBAL;
 		memset(&data.quote, 0, sizeof(token_quote));
