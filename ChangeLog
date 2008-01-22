@@ -36,3 +36,8 @@
 
       * Adding pkg-config interface for other packages to link against this
         library.
+
+      * Support for values spanning over multiple lines (multiline). This
+        feature can be enabled/disabled by calling inifile_set_option().
+
+
