@@ -1,5 +1,5 @@
 // ***********************************************************************
-// libinifile - Small library to parse ini-style configuarion files.
+// libinifile - library for parsing ini-style configuration files.
 // Copyright (C) 2008  Anders Lövgren
 // ***********************************************************************
 // This program is free software; you can redistribute it and/or modify
