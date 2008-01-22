@@ -39,9 +39,9 @@
 #endif
 
 #include <libgen.h>
-#include <inifile++/lib.hpp>
+#include <inifile++.hpp>
 
-using namespace inifile;
+using namespace inifilepp;
 
 int main(int argc, char **argv)
 {
@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 				<< ", key="  << ent->key 
 				<< ", val="  << ent->val << "\n";
 		}
-	} catch(lexer::exception &e) {
+	} catch(parser::exception &e) {
 		std::cerr << prog << ": parse error at (" << e.line << "," << e.cpos << ")\n";
 		return 1;
 	}
