@@ -53,8 +53,8 @@ token_data * lexer_check(struct inifile *inf, token_data *data)
 			}
 		}
 		break;
-	case CDATA:
 	case WHITESP:
+	case CDATA:
 	case NONE:
 		break;
 	case BSECT:
@@ -102,7 +102,9 @@ token_data * lexer_check(struct inifile *inf, token_data *data)
 		}
 		if(data->seen == QUOTE) {
 			if(!data->quote.ech) {
-				return lexer_error(inf, data, "unterminated quote");
+				if(data->prev != MLINE) {
+					return lexer_error(inf, data, "unterminated quote");
+				}
 			}
 			if(data->quote.num % 2) {
 				return lexer_error(inf, data, "unbalanced number of quotes");
@@ -118,6 +120,16 @@ token_data * lexer_check(struct inifile *inf, token_data *data)
 		}
 		break;
 	}
-		
+
+	switch(data->prev) {
+	case MLINE:
+		if(data->curr == EOSTR || data->curr == WHITESP) {
+			if((inf->options & INIFILE_ALLOW_MULTILINE) == 0) {
+				return lexer_error(inf, data, "multiline value");
+			}
+		}
+		break;
+	}
+	
 	return data;
 }

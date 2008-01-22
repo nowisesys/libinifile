@@ -98,9 +98,10 @@ const struct inient * inifile_parse(struct inifile *inf)
  */
 int inifile_set_option(struct inifile *inf, int option, const void *value)
 {
-	if(option == INIFILE_CHECK_SYNTAX ||
-	   option == INIFILE_ALLOW_QUOTE  ||
-	   option == INIFILE_ASSIGN_INSIDE) {
+	if(option == INIFILE_CHECK_SYNTAX  ||
+	   option == INIFILE_ALLOW_QUOTE   ||
+	   option == INIFILE_ASSIGN_INSIDE ||
+	   option == INIFILE_ALLOW_MULTILINE) {
 		const int *optval = (const int *)value;
 		if(*optval) {
 			inf->options |= option;
@@ -136,9 +137,10 @@ int inifile_set_option(struct inifile *inf, int option, const void *value)
  */
 int inifile_get_option(struct inifile *inf, int option, void *value)
 {
-	if(option == INIFILE_CHECK_SYNTAX ||
-	   option == INIFILE_ALLOW_QUOTE  ||
-	   option == INIFILE_ASSIGN_INSIDE) {
+	if(option == INIFILE_CHECK_SYNTAX  ||
+	   option == INIFILE_ALLOW_QUOTE   ||
+	   option == INIFILE_ASSIGN_INSIDE ||
+	   option == INIFILE_ALLOW_MULTILINE) {
 		int *optval = (int *)value;
 		*optval = (inf->options & option) ? 1 : 0;
 	} else if(option == INIFILE_CHARS_COMMENT) {

@@ -61,7 +61,8 @@ enum TOKEN_SYMBOL
 	WHITESP,	/* Any whitespace character */
 	QUOTE,		/* Quote character ('"' or ''') */
 	CDATA,		/* Data */
-	EOSTR	        /* End of string */
+	EOSTR,	        /* End of string */
+	MLINE,          /* Multiline separator ('\') */	
 };
 
 /*

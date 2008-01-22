@@ -68,6 +68,9 @@ int token_get(struct inifile *inf, token_data *data)
 			data->quote.ech = inf->str[data->pos];
 			data->quote.num++;
 			break;
+		case '\\':
+			data->curr = MLINE;
+			break;
 		default:
 			/*
 			 * Treat all input as data inside quoted string.
@@ -94,6 +97,9 @@ int token_get(struct inifile *inf, token_data *data)
 			data->curr = QUOTE;
 			data->quote.sch = inf->str[data->pos];
 			data->quote.num++;
+			break;
+		case '\\':
+			data->curr = MLINE;
 			break;
 		default:
 			if(strlen(inf->str) == 0 || inf->str[data->pos] == 0 || data->pos == inf->len) {

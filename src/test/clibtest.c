@@ -48,35 +48,47 @@ static void set_options(struct inifile *inf)
 	char *pp;
 	
 	if(inifile_get_option(inf, INIFILE_ASSIGN_INSIDE, &value) < 0) {
-		fprintf(stderr, "failed get option value of INIFILE_ASSIGN_INSIDE");
+		fprintf(stderr, "failed get option value of INIFILE_ASSIGN_INSIDE\n");
 		exit(1);
 	}
 	if(value == 0) {
 		value = 1;
 		if(inifile_set_option(inf, INIFILE_ASSIGN_INSIDE, &value) < 0) {
-			fprintf(stderr, "failed set option value of INIFILE_ASSIGN_INSIDE");
+			fprintf(stderr, "failed set option value of INIFILE_ASSIGN_INSIDE\n");
 			exit(1);
 		}
 	}
 		
 	if(inifile_get_option(inf, INIFILE_ALLOW_QUOTE, &value) < 0) {
-		fprintf(stderr, "failed get option value of INIFILE_ALLOW_QUOTE");
+		fprintf(stderr, "failed get option value of INIFILE_ALLOW_QUOTE\n");
 		exit(1);
 	}
 	if(value == 0) {
 		value = 0;
 		if(inifile_set_option(inf, INIFILE_ALLOW_QUOTE, &value) < 0) {
-			fprintf(stderr, "failed set option value of INIFILE_ALLOW_QUOTE");
+			fprintf(stderr, "failed set option value of INIFILE_ALLOW_QUOTE\n");
+			exit(1);
+		}
+	}
+
+	if(inifile_get_option(inf, INIFILE_ALLOW_MULTILINE, &value) < 0) {
+		fprintf(stderr, "failed get option value of INIFILE_ALLOW_MULTILINE\n");
+		exit(1);
+	}
+	if(value == 0) {
+		value = 1;
+		if(inifile_set_option(inf, INIFILE_ALLOW_MULTILINE, &value) < 0) {
+			fprintf(stderr, "failed set option value of INIFILE_ALLOW_MULTILINE\n");
 			exit(1);
 		}
 	}
 	
 	if(inifile_get_option(inf, INIFILE_CHARS_COMMENT, &pp) < 0) {
-		fprintf(stderr, "failed get comment chars");
+		fprintf(stderr, "failed get comment chars\n");
 		exit(1);
 	}
 	if(inifile_set_option(inf, INIFILE_CHARS_COMMENT, "#;") < 0) {
-		fprintf(stderr, "failed set comment chars");
+		fprintf(stderr, "failed set comment chars\n");
 		exit(1);
 	}
 }

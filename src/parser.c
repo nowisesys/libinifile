@@ -82,7 +82,7 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
 	static const char *strtoken[] = {
 		"NONE",   "BSECT",   "ESECT", "COMMENT", 
 		"ASSIGN", "WHITESP", "QUOTE", "CDATA", 
-		"EOSTR"
+		"EOSTR",  "MLINE"
 	};
 	static const char *strclass[] = {
 		"GLOBAL", "SECTION", "KEYWORD", "VALUE"
@@ -124,7 +124,7 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
 			break;
 		case COMMENT:			        /* We are done */
 		case EOSTR:
-			if(data->seen != ESECT) {
+			if(data->seen != ESECT && data->prev != MLINE) {
 				/*
 				 * Only returns entries where keyword is set.
 				 */ 
@@ -140,6 +140,10 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
 			break;
 		case CDATA:
 		case WHITESP:
+			if(data->curr == WHITESP && data->prev == MLINE) {
+				data->pos++;
+				continue;        /* eat whitespace */
+			}
 			if(data->seen == BSECT) {
 				data->cls = SECTION;
 				entry->sect = putstr(entry->sect, inf->str[data->pos]);
@@ -164,13 +168,14 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
 			break;
 		case NONE:				/* Ignore */
 		case QUOTE:				/* Ignore */
+		case MLINE:
 			break;
 		}
-				
+		
 		/*
 		 * Save last seen token thats not CDATA.
 		 */
-		if(data->curr != CDATA && data->curr != WHITESP) {
+		if(data->curr != CDATA && data->curr != WHITESP && data->curr != MLINE) {
 			data->seen = data->curr;
 		}
 		data->prev = data->curr;
@@ -190,22 +195,26 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
 const parser_entry * parser_get_next(struct inifile *inf)
 {
 	token_data data;
+	memset(&data, 0, sizeof(token_data));
 	
 	/*
-	 * Label where we continue if EOS is found.
+	 * Label where we continue if end of string or
+	 * multiline token is found in input stream.
 	 */
 	next:
 	
-	/*
-	 * Reset scan data.
-	 */
-	if(inf->entry->key) {
-		free(inf->entry->key);
-		inf->entry->key = NULL;
-	}
-	if(inf->entry->val) {
-		free(inf->entry->val);
-		inf->entry->val = NULL;
+	if(data.prev != MLINE) {								
+		/*
+		 * Reset scan data.
+		 */
+		if(inf->entry->key) {
+			free(inf->entry->key);
+			inf->entry->key = NULL;
+		}
+		if(inf->entry->val) {
+			free(inf->entry->val);
+			inf->entry->val = NULL;
+		}
 	}
 	
 	/*
@@ -233,11 +242,13 @@ const parser_entry * parser_get_next(struct inifile *inf)
 		 */
 		data.pos  = 0;
 		data.line = inf->entry->line;
-		data.curr = NONE;
-		data.prev = NONE;
-		data.seen = NONE;
-		data.cls  = GLOBAL;
-		memset(&data.quote, 0, sizeof(token_quote));
+		if(data.prev != MLINE) {
+			data.curr = NONE;
+			data.prev = NONE;
+			data.seen = NONE;
+			data.cls  = GLOBAL;
+			memset(&data.quote, 0, sizeof(token_quote));
+		}
 		
 		switch(parser_tokenize(inf, &data, inf->entry)) {
 		case PARSE_ERROR:
@@ -250,7 +261,7 @@ const parser_entry * parser_get_next(struct inifile *inf)
 				 * Handle syntax error that would require more context (i.e. look-ahead) 
 				 * than whats available to the lexer when its doing its syntax check.
 				 */
-				if(data.seen == ASSIGN && strlen(inf->entry->val) == 0) {
+				if(data.seen == ASSIGN && (inf->entry->val == NULL || strlen(inf->entry->val) == 0)) {
 					return parser_error(inf, &data, "assign without value");
 				}
 			}
