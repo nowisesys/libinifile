@@ -1,19 +1,20 @@
-0.2.0 (2008-01-16):
+0.5.0 (2008-01-22):
 
-      * Added C-source version of the library. The library was written in
-        C++ originally. The C++ version of the library is in directory cxx 
-	and is conditionally built by configure the source with --enable-cxx
-	and installed as libinifile++ (both shared and static by default).
+      * Fixed the C++ library to use libinifile (C library) to do the
+        parsing. Updated the C++ interface (header).
       
-      * Added manual pages for the C-library version of libinifile.
-      
-0.2.1 (2008-01-20):
+0.4.1 (2008-01-22):
 
-      * Fixed conditional building C and C++ test depending on --enable-test
-        and --enable-cxx.
-	
-      * Added better error detection in lexer and parser. Improved error
-        messages to be more fine grained.
+      * Adding pkg-config interface for other packages to link against this
+        library.
+
+      * Support for values spanning over multiple lines (multiline). This
+        feature can be enabled/disabled by calling inifile_set_option().
+
+0.4.0 (2008-01-21):
+
+      * Modified API inifile_xxx_option() to allow caller to change the set
+        of characters to treat as comment start and assignment characters.
 	
 0.3.0 (2008-01-21):
       
@@ -27,17 +28,20 @@
         for inifile_set_option(), inifile_get_option(), inifile_get_error() and
 	inifile_clear_error().
 	
-0.4.0 (2008-01-21):
+0.2.1 (2008-01-20):
 
-      * Modified API inifile_xxx_option() to allow caller to change the set
-        of characters to treat as comment start and assignment characters.
+      * Fixed conditional building C and C++ test depending on --enable-test
+        and --enable-cxx.
 	
-0.4.1 (2008-01-21):
+      * Added better error detection in lexer and parser. Improved error
+        messages to be more fine grained.
+	
+0.2.0 (2008-01-16):
 
-      * Adding pkg-config interface for other packages to link against this
-        library.
-
-      * Support for values spanning over multiple lines (multiline). This
-        feature can be enabled/disabled by calling inifile_set_option().
-
-
+      * Added C-source version of the library. The library was written in
+        C++ originally. The C++ version of the library is in directory cxx 
+	and is conditionally built by configure the source with --enable-cxx
+	and installed as libinifile++ (both shared and static by default).
+      
+      * Added manual pages for the C-library version of libinifile.
+      
