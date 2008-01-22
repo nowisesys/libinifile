@@ -3,7 +3,7 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: libinifile
+Name: libinifile++
 Description: Library for parsing ini-style configuration files (C++ API).
 URL: http://www.algonet.se/~lespaul/proj/libinifile
 Version: @VERSION@
