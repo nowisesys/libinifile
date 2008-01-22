@@ -1,4 +1,4 @@
-Adding pkg-config interface for other packages to link against this library.
-See ChangeLog for a complete list of new features in this version.
+See the ChangeLog file for a complete list of changes in this 
+version of the package source.
 
-Anders Lövgren, 2008-01-16
+Anders Lövgren, 2008-01-22
