@@ -23,7 +23,7 @@
 
 #include <stdio.h>
 
-#ifdef cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif 
 	
@@ -125,7 +125,7 @@ const struct inierr * inifile_get_error(struct inifile *);
  */
 void inifile_clear_error(struct inifile *);
 	
-#ifdef cplusplus
+#ifdef __cplusplus
 }      /* extern "C" */
 #endif
 
