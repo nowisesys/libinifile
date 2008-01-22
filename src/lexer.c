@@ -127,6 +127,9 @@ token_data * lexer_check(struct inifile *inf, token_data *data)
 			if((inf->options & INIFILE_ALLOW_MULTILINE) == 0) {
 				return lexer_error(inf, data, "multiline value");
 			}
+			if(data->cls == KEYWORD) {
+				return lexer_error(inf, data, "multiline keyword");
+			}
 		}
 		break;
 	}
