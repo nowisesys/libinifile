@@ -9,4 +9,4 @@ URL: http://www.algonet.se/~lespaul/proj/libinifile
 Version: @VERSION@
 Requires: 
 Libs: -L${libdir} -linifile++
-Cflags: -I${includedir}/inifile++
+Cflags:

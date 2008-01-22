@@ -4,11 +4,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libinifile++.pc
 
 lib_LTLIBRARIES = libinifile++.la
-libinifile___la_SOURCES = \
-	   parser.cpp inifile++/parser.hpp lexer.cpp inifile++/lexer.hpp \
-	   token.cpp inifile++/token.hpp
-libinifile___la_LDFLAGS = -version-info 3:0:0
-nobase_include_HEADERS = \
-	   inifile++/lexer.hpp  inifile++/parser.hpp inifile++/token.hpp \
-	   inifile++/lib.hpp
-INCLUDES = -I$(top_srcdir)/src/cxx/inifile++
+libinifile___la_SOURCES = inifile++.hpp inifile++.cpp
+libinifile___la_LDFLAGS = -version-info 4:0:0
+
+INCLUDES = -I$(top_srcdir)/src/cxx -I$(top_srcdir)/src
