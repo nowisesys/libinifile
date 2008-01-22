@@ -72,11 +72,12 @@ struct inifile
 #define INIFILE_ALLOW_QUOTE       2    /* allow quoted strings */
 #define INIFILE_ASSIGN_INSIDE     4    /* allow s1=s2 inside values */
 #define INIFILE_ALLOW_MULTILINE   8    /* allow multiline ('\') */
+#define INIFILE_COMPACT_MLINE    16    /* eat whitespace in multiline */
 	
 #define INIFILE_CHARS_COMMENT   256    /* get/set comment chars */
 #define INIFILE_CHARS_ASSIGN    512    /* get/set assignment chars */
 	
-#define INIFILE_DEFAULT_OPTIONS (INIFILE_CHECK_SYNTAX | INIFILE_ALLOW_QUOTE)
+#define INIFILE_DEFAULT_OPTIONS (INIFILE_CHECK_SYNTAX | INIFILE_ALLOW_QUOTE | INIFILE_COMPACT_MLINE)
 
 /*
  * Default comment chars and assignment chars.

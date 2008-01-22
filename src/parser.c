@@ -141,6 +141,9 @@ static int parser_tokenize(struct inifile *inf, token_data *data, parser_entry *
 		case CDATA:
 		case WHITESP:
 			if(data->curr == WHITESP && data->prev == MLINE) {
+				if((inf->options & INIFILE_COMPACT_MLINE) == 0) {
+					entry->val = putstr(entry->val, inf->str[data->pos]);
+				}
 				data->pos++;
 				continue;        /* eat whitespace */
 			}
