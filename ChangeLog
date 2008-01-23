@@ -1,7 +1,10 @@
 0.5.0 (2008-01-22):
 
-      * Fixed the C++ library to use libinifile (C library) to do the
-        parsing. Updated the C++ interface (header).
+      * Fixed the C++ library to use libinifile code (C library) for parsing.
+        Updated the C++ interface (header). 
+	
+      * Adding manual page for the C++ library (libinifile++) and fixing the 
+        manual page for the C library (libinifile).
       
 0.4.1 (2008-01-22):
 
