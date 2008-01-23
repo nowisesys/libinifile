@@ -50,6 +50,9 @@
 /* Define to 1 if you have the C++ STL <string> header file. */
 #undef HAVE_STL_STRING
 
+/* Define to 1 if you have the `strchr' function. */
+#undef HAVE_STRCHR
+
 /* Define to 1 if you have the <strings.h> header file. */
 #undef HAVE_STRINGS_H
 

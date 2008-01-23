@@ -54,7 +54,7 @@ AC_TYPE_SSIZE_T
 # Checks for library functions.
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
-AC_CHECK_FUNCS([getline memmove memset])
+AC_CHECK_FUNCS([getline memmove memset strchr])
 
 # Add replacement for getline and getdelim (GNU extensions):
 if test "x$ac_cv_func_getline" != "xyes"; then
