@@ -57,9 +57,9 @@ int main(int argc, char **argv)
 		const parser::entry *ent;
 		
 		while((ent = p.next())) {
-			std::cout << "sect=" << ent->sect 
-				<< ", key="  << ent->key 
-				<< ", val="  << ent->val << "\n";
+			std::cout << "sect='" << (ent->sect ? ent->sect : "") << "', " 
+				  << "key='"  << (ent->key  ? ent->key  : "")  << "', " 
+				  << "val='"  << (ent->val  ? ent->val  : "") << "'\n";
 		}
 	} catch(parser::exception &e) {
 		std::cerr << prog << ": parse error at (" << e.line << "," << e.cpos << ")\n";
