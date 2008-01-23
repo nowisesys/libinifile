@@ -54,8 +54,8 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)"
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libinifile___la_LIBADD =
-am_libinifile___la_OBJECTS = inifile++.lo inifile.lo lexer.lo \
-	parser.lo token.lo
+am_libinifile___la_OBJECTS = inifile.lo lexer.lo parser.lo token.lo \
+	inifile++.lo
 libinifile___la_OBJECTS = $(am_libinifile___la_OBJECTS)
 libinifile___la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
@@ -199,8 +199,9 @@ EXTRA_DIST = libinifile++.pc libinifile++.pc.in
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libinifile++.pc
 lib_LTLIBRARIES = libinifile++.la
-libinifile___la_SOURCES = inifile++.hpp inifile++.cpp \
-			../inifile.c  ../lexer.c  ../parser.c  ../token.c
+libinifile___la_SOURCES = \
+	../inifile.c ../lexer.c ../parser.c ../token.c \
+	inifile++.hpp inifile++.cpp 
 
 libinifile___la_LDFLAGS = -version-info 4:0:0 
 INCLUDES = -I$(top_srcdir)/src/cxx -I$(top_srcdir)/src
