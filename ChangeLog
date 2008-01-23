@@ -1,4 +1,4 @@
-0.5.0 (2008-01-22):
+0.5.0 (2008-01-23):
 
       * Fixed the C++ library to use libinifile code (C library) for parsing.
         Updated the C++ interface (header). 
