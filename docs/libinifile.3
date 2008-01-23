@@ -18,7 +18,7 @@
 .\"
 .\"
 .SH NAME
-libinifile \- Small library to parse ini-style configuarion files.
+libinifile \- C library for parsing ini-style configuration files.
 .SH SYNOPSIS
 .B #include <inifile.h>
 .SH DESCRIPTION
@@ -96,6 +96,12 @@ Allow quoted strings around value.
 .TP 
 \fBINIFILE_ASSIGN_INSIDE\fP (in: int *, out: int *)
 Allow assign characters inside value.
+.TP
+\fBINIFPP_ALLOW_MULTILINE\fP (in: int *, out: int *)
+Allow value to span multiple lines using '\\' as line continuation character.
+.TP
+\fBINIFPP_COMPACT_MLINE\fP (in: int *, out: int *)
+Eat extra whitespace in value when INIFPP_ALLOW_MULTILINE is used.
 .TP
 \fBINIFILE_CHARS_COMMENT\fP (in: char *, out: char **)
 Controls the set of characters identified as begin of comment (default: '#').
