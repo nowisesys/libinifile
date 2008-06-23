@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.61)
-AC_INIT(libinifile, 0.5.0, [Anders Lövgren <lespaul@algonet.se>])
-AM_INIT_AUTOMAKE(libinifile, 0.5.0)
+AC_INIT(libinifile, 0.5.1, [Anders Lövgren <lespaul@algonet.se>])
+AM_INIT_AUTOMAKE(libinifile, 0.5.1)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 
@@ -14,7 +14,6 @@ AC_PROG_INSTALL
 AC_PROG_LIBTOOL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-AC_PROG_RANLIB
 LIBINIFILE_CHECK_COMPILERS
 
 # Use C++ compiler for library and header check.
