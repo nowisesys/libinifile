@@ -31,6 +31,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@BUILD_INIFILE_CXXLIB_TRUE@am__append_1 = libinifile++.3
 subdir = docs
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -158,10 +159,8 @@ target_alias = @target_alias@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 man_MANS = inifile_init.3 inifile_parse.3 inifile_free.3 \
-	   inifile_set_option.3 inifile_get_option.3 \
-	   inifile_get_error.3 inifile_clear_error.3 \
-	   libinifile.3 
-
+	inifile_set_option.3 inifile_get_option.3 inifile_get_error.3 \
+	inifile_clear_error.3 libinifile.3 $(am__append_1)
 all: all-am
 
 .SUFFIXES:
