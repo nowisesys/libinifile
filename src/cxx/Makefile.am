@@ -10,3 +10,6 @@ libinifile___la_SOURCES = \
 libinifile___la_LDFLAGS = -version-info 4:0:0 
 
 INCLUDES = -I$(top_srcdir)/src/cxx -I$(top_srcdir)/src
+
+library_includedir=$(includedir)
+library_include_HEADERS = inifile++.hpp
