@@ -119,7 +119,7 @@ A small example showing how to parse an ini-file:
 
 static void die(struct inifile *inf)
 {
-	inierr *error = inifile_get_error(inf);
+	const struct inierr *error = inifile_get_error(inf);
         fprintf(stderr, "%s(%d:%d): %s\\n", 
 	        inf->file, error->line, error->pos, error->msg);
 	exit(1);
@@ -131,7 +131,7 @@ int main(int argc, char **argv)
 	const struct inient *ent;
 	
 	if(inifile_init(&inf, "sample.conf") == 0) {
-		while((ent = inifile(&inf))) {
+		while((ent = inifile_parse(&inf))) {
 			printf("sect=%s, key=%s, val=%s\\n", 
 			        ent->sect, ent->key, ent->val);
 		}
