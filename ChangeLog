@@ -1,3 +1,11 @@
+0.5.4 (2008-10-21):
+0.5.3 (2008-06-23):
+0.5.3 (2008-06-23):
+0.5.1 (2008-06-23):
+      
+      * Many small fixes, no new features. Most fixes are in the build
+        system and the documentation (manual pages).
+      
 0.5.0 (2008-01-23):
 
       * Fixed the C++ library to use libinifile code (C library) for parsing.
