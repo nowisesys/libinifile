@@ -96,7 +96,7 @@ AC_DEFUN([LIBINIFILE_CHECK_COMPILERS],
     esac
   ],
     [libinifile_use_debug_code="no"
-      libinifile_use_debug_define=no
+     libinifile_use_debug_define=no
   ])
   
   AC_ARG_ENABLE(warnings,AC_HELP_STRING([--disable-warnings],[disables compilation with -Wall and similar]),
@@ -114,12 +114,13 @@ AC_DEFUN([LIBINIFILE_CHECK_COMPILERS],
   )
 
   dnl this prevents stupid AC_PROG_CC to add "-g" to the default CFLAGS
+  
   FLAGSCXX=" $CXXFLAGS"
   CXXFLAGS=" "
   AC_PROG_CXX
 
   FLAGSC=" $CFLAGS"
-  CFLAGS=""
+  CFLAGS=" "
   AC_PROG_CC
 
   AC_PROG_CPP
