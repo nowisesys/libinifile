@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libinifile", "libinifile.vcproj", "{9C3886A8-8EBA-4CD3-8F74-FB0BF2002415}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libinifile++", "libinifile++.vcproj", "{84828E1F-F1DB-4BFE-A6D8-A157B3FC9A4C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C3886A8-8EBA-4CD3-8F74-FB0BF2002415}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9C3886A8-8EBA-4CD3-8F74-FB0BF2002415}.Debug|Win32.Build.0 = Debug|Win32
+		{9C3886A8-8EBA-4CD3-8F74-FB0BF2002415}.Release|Win32.ActiveCfg = Release|Win32
+		{9C3886A8-8EBA-4CD3-8F74-FB0BF2002415}.Release|Win32.Build.0 = Release|Win32
+		{84828E1F-F1DB-4BFE-A6D8-A157B3FC9A4C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{84828E1F-F1DB-4BFE-A6D8-A157B3FC9A4C}.Debug|Win32.Build.0 = Debug|Win32
+		{84828E1F-F1DB-4BFE-A6D8-A157B3FC9A4C}.Release|Win32.ActiveCfg = Release|Win32
+		{84828E1F-F1DB-4BFE-A6D8-A157B3FC9A4C}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
