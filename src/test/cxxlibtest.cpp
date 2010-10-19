@@ -38,14 +38,19 @@
 # include <fstream>
 #endif
 
+#ifdef HAVE_BASENAME
 #include <libgen.h>
+#else
+#define basename(p) (p)
+#endif
+
 #include <inifile++.hpp>
 
 using namespace inifilepp;
 
 int main(int argc, char **argv)
 {
-	char *prog = basename(argv[0]);
+	const char *prog = basename(argv[0]);
 	
 	if(argc != 2) {
 		std::cerr << "usage: " << prog << " <ini-file>\n";
@@ -56,6 +61,14 @@ int main(int argc, char **argv)
 		parser p(argv[1]);
 		const parser::entry *ent;
 		
+		// 
+		// Use same options as equivalent C library test:
+		// 
+		p.setopt(INIFILE_ASSIGN_INSIDE, 1);
+		p.setopt(INIFILE_ALLOW_QUOTE, 0);
+		p.setopt(INIFILE_ALLOW_MULTILINE, 1);
+		p.setopt(INIFILE_CHARS_COMMENT, "#");
+
 		while((ent = p.next())) {
 			std::cout << "sect='" << (ent->sect ? ent->sect : "") << "', " 
 				  << "key='"  << (ent->key  ? ent->key  : "")  << "', " 

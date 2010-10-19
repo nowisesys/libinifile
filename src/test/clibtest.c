@@ -32,7 +32,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef HAVE_BASENAME
 #include <libgen.h>
+#else
+#define basename(p) (p)
+#endif
 #include <inifile.h>
 
 static void die(struct inifile *inf)

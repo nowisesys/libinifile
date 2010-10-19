@@ -37,4 +37,7 @@ typedef long long ssize_t;
 /* Disable warnings, this is bug free code anyway ;-) */
 #define _CRT_SECURE_NO_WARNINGS 
 
+/* Define to 1 if you have the C++ STL <iostream> header file. */
+#define HAVE_STL_IOSTREAM 1
+
 #endif  /* __CONFIG_H__ */
