@@ -21,10 +21,14 @@
 #ifndef __LIBINIFILE_INIFILE_H__
 #define __LIBINIFILE_INIFILE_H__
 
-#include <stdio.h>
-
 #ifdef __cplusplus
 extern "C" {
+#endif
+
+#include <stdio.h>
+
+#ifndef  INIFILE_API_IMPORT
+# define INIFILE_API_EXPORT 1
 #endif
 
 #if defined(__GNUC__) && ! defined(__NO_INLINE__)
@@ -60,6 +64,28 @@ extern "C" {
 #  define INIFILE_API_HIDDEN
 # endif
 #endif
+
+/*
+ * Options for inifile_xxx_option().
+ */
+#define INIFILE_CHECK_SYNTAX      1    /* syntax check */
+#define INIFILE_ALLOW_QUOTE       2    /* allow quoted strings */
+#define INIFILE_ASSIGN_INSIDE     4    /* allow s1=s2 inside values */
+#define INIFILE_ALLOW_MULTILINE   8    /* allow multiline ('\') */
+#define INIFILE_COMPACT_MLINE    16    /* eat whitespace in multiline */
+	
+#define INIFILE_CHARS_COMMENT   256    /* get/set comment chars */
+#define INIFILE_CHARS_ASSIGN    512    /* get/set assignment chars */
+	
+#define INIFILE_DEFAULT_OPTIONS (INIFILE_CHECK_SYNTAX | INIFILE_ALLOW_QUOTE | INIFILE_COMPACT_MLINE)
+
+/*
+ * Default comment chars and assignment chars.
+ */
+#define INIFILE_DEFIDS_COMMENT "#" /* default comment chars */
+#define INIFILE_DEFIDS_ASSIGN  "=" /* default assignment chars */
+
+#if defined(INIFILE_API_EXPORT)
 
 /*
  * An ini-file entry.
@@ -98,26 +124,6 @@ struct inifile
 	char *comment;          /* comment chars */
 	char *assign;           /* assign chars */
 };
-
-/*
- * Options for inifile_xxx_option().
- */
-#define INIFILE_CHECK_SYNTAX      1    /* syntax check */
-#define INIFILE_ALLOW_QUOTE       2    /* allow quoted strings */
-#define INIFILE_ASSIGN_INSIDE     4    /* allow s1=s2 inside values */
-#define INIFILE_ALLOW_MULTILINE   8    /* allow multiline ('\') */
-#define INIFILE_COMPACT_MLINE    16    /* eat whitespace in multiline */
-	
-#define INIFILE_CHARS_COMMENT   256    /* get/set comment chars */
-#define INIFILE_CHARS_ASSIGN    512    /* get/set assignment chars */
-	
-#define INIFILE_DEFAULT_OPTIONS (INIFILE_CHECK_SYNTAX | INIFILE_ALLOW_QUOTE | INIFILE_COMPACT_MLINE)
-
-/*
- * Default comment chars and assignment chars.
- */
-#define INIFILE_DEFIDS_COMMENT "#" /* default comment chars */
-#define INIFILE_DEFIDS_ASSIGN  "=" /* default assignment chars */
 
 /*
  * Initilize the parser. Returns 0 if successful and -1 on
@@ -165,7 +171,8 @@ const struct inierr * inifile_get_error(struct inifile *);
  */
 INIFILE_API_PUBLIC
 void inifile_clear_error(struct inifile *);
-	
+
+#endif /* INIFILE_API_EXPORT */
 #ifdef __cplusplus
 }      /* extern "C" */
 #endif

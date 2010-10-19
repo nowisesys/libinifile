@@ -24,9 +24,6 @@
 
 #ifdef __cplusplus
 
-#include <string>
-#include <inifile.h>
-
 #if defined(__GNUC__) && ! defined(__NO_INLINE__)
 # define INIFILE_API_INLINE static inline
 #else
@@ -60,6 +57,13 @@
 #  define INIFILE_API_HIDDEN
 # endif
 #endif
+
+#define INIFILE_API_IMPORT
+#include <string>
+#include <inifile.h>
+
+struct inifile;
+struct inierr;
 
 namespace inifilepp {
 	
