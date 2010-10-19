@@ -1,5 +1,5 @@
-/* Monitors and restarts a crashed child process.
- * Copyright (C) 2007 Anders Lövgren
+/* libinifile - library for parsing ini-style configuration files.
+ * Copyright (C) 2008-2010 Anders Lövgren
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,15 @@
 #endif
 
 #include <stdio.h>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+#ifdef HAVE_STDLIB_H
+#include <stdlib.h>
+#endif
+#ifdef HAVE_ERRNO_H
+#include <errno.h>
+#endif
 
 #include "common.h"
 
@@ -38,6 +46,9 @@
  * Reads next line from file stream and store in buff. The buffer 
  * is dynamic resized to fit a complete line. The size argument holds
  * the buffer size. Returns 0 if successful and -1 on failure.
+ * 
+ * This is intentional the same prototyp as getdelim(3) found on
+ * Linux, including the return type.
  */
 ssize_t rpl_getdelim(char **buff, size_t *size, int delim, FILE *stream)
 {

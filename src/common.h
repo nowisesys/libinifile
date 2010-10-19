@@ -1,5 +1,5 @@
-/* libinifile - library for parsing ini-style configuration files.
- * Copyright (C) 2008  Anders Lövgren
+/* libinifile - C/C++ library for parsing ini-style configuration files.
+ * Copyright (C) 2008-2010  Anders Lövgren, QNET/BMC Compdept, Uppsala University
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@
 /*
  * Parse next entry.
  */
-const parser_entry * parser_get_next(struct inifile *);
+const parser_entry * parser_get_next(struct inifile *) INIFILE_API_HIDDEN;
 
 /*************************************
  * The tokenizer.
@@ -82,24 +82,24 @@ typedef struct
 		
 typedef struct
 {
-	ssize_t pos;	          /* Start position */
-	ssize_t line;	          /* Line number */
-	int curr;		  /* Current token */
-	int prev;                 /* Previous token */
-	int seen;		  /* Saved token */
-	int cls;                  /* Classification */
-	token_quote quote;	  /* Quote string */
+	size_t pos;           /* Start position */
+	size_t line;          /* Line number */
+	int curr;             /* Current token */
+	int prev;             /* Previous token */
+	int seen;             /* Saved token */
+	int cls;              /* Classification */
+	token_quote quote;    /* Quote string */
 } token_data;
 
 /* 
  * Get next TOKEN_SYMBOL 
  */
-int token_get(struct inifile *, token_data *data);
+int token_get(struct inifile *, token_data *data) INIFILE_API_HIDDEN;
 
 /*
  * Remove leading and trailing whitespace.
  */
-parser_entry * token_trim(parser_entry *entry);
+parser_entry * token_trim(parser_entry *entry) INIFILE_API_HIDDEN;
 
 /*************************************
  * The lexer.
@@ -108,24 +108,21 @@ parser_entry * token_trim(parser_entry *entry);
 /*
  * Check lexical syntax.
  */
-token_data * lexer_check(struct inifile *, token_data *data);
+token_data * lexer_check(struct inifile *, token_data *data) INIFILE_API_HIDDEN;
 
 /*
  * Write error message.
  */
-void inifile_set_error(struct inifile *, 
-		       unsigned int line, 
-		       unsigned int pos,
-		       const char *fmt, ...);
+void inifile_set_error(struct inifile *, size_t line, size_t pos, const char *fmt, ...) INIFILE_API_HIDDEN;
 
 /*
  * Remove leading and trailing whitespace characters from
  * string pointed to by str.
  */
-char * inifile_trim_str(char *str);
+char * inifile_trim_str(char *str) INIFILE_API_HIDDEN;
 
 #if !defined(HAVE_GETLINE) || !defined(HAVE_GETDELIM)
-ssize_t rpl_getdelim(char **lineptr, size_t *n, int delim, FILE *stream);
+ssize_t rpl_getdelim(char **lineptr, size_t *n, int delim, FILE *stream) INIFILE_API_HIDDEN;
 # if !defined(HAVE_GETDELIM)
 #  define getdelim(p, n, d, s) rpl_getdelim((p), (n), (d), (s))
 # endif

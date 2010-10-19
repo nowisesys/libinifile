@@ -1,5 +1,5 @@
-/* libinifile - library for parsing ini-style configuration files.
- * Copyright (C) 2008  Anders Lövgren
+/* libinifile - C/C++ library for parsing ini-style configuration files.
+ * Copyright (C) 2008-2010  Anders Lövgren, QNET/BMC Compdept, Uppsala University
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -216,8 +216,8 @@ const struct inierr * inifile_get_error(struct inifile *inf)
  * Write error message.
  */
 void inifile_set_error(struct inifile *inf, 
-		       unsigned int line, 
-		       unsigned int pos,
+		       size_t line, 
+		       size_t pos,
 		       const char *fmt, ...)
 {
 	int bytes;

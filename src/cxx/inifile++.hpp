@@ -1,6 +1,6 @@
 // ***********************************************************************
-// libinifile - library for parsing ini-style configuration files.
-// Copyright (C) 2008  Anders Lövgren
+// libinifile - C/C++ library for parsing ini-style configuration files.
+// Copyright (C) 2008-2010  Anders Lövgren, QNET/BMC Compdept, Uppsala University
 // ***********************************************************************
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,9 +27,43 @@
 #include <string>
 #include <inifile.h>
 
+#if defined(__GNUC__) && ! defined(__NO_INLINE__)
+# define INIFILE_API_INLINE static inline
+#else
+# define INIFILE_API_INLINE __inline
+#endif
+
+#if defined(WIN32) || defined(_WINDOWS) || defined(__CYGWIN__)
+	/* Define LIBINIFILE_EXPORTS when building library on windows. */
+# if defined(LIBINIFILE_EXPORTS)
+#  if defined(__GNUC__)
+#   define INIFILE_API_PUBLIC __attribute__((dllexport))
+#  else
+	/* Note: actually gcc seems to also supports this syntax. */
+#   define INIFILE_API_PUBLIC __declspec(dllexport)
+#  endif
+# else
+#  if defined(__GNUC__)
+#   define INIFILE_API_PUBLIC __attribute__((dllimport))
+#  else
+	/* Note: actually gcc seems to also supports this syntax. */
+#   define INIFILE_API_PUBLIC __declspec(dllimport) 
+#  endif
+# endif
+# define INIFILE_API_HIDDEN
+#else
+# if __GNUC__ >= 4
+#  define INIFILE_API_PUBLIC __attribute__ ((visibility("default")))
+#  define INIFILE_API_HIDDEN __attribute__ ((visibility("hidden")))
+# else
+#  define INIFILE_API_PUBLIC
+#  define INIFILE_API_HIDDEN
+# endif
+#endif
+
 namespace inifilepp {
 	
-	class parser
+	class INIFILE_API_PUBLIC parser
 	{
 	private:
 		inifile *inf;
