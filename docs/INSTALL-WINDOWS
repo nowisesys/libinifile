@@ -1,0 +1,32 @@
+
+   INSTALL INSTRUCTIONS FOR WINDOWS
+   
+   
+See the win32 directory. Currently only Visual Studio 2008 (VC9) is
+supported, but it should be easy to setup and build the code using
+another tool-chains or IDE.
+
+If supporting another develop environment, please notice that this project 
+has two dll-files as targets: 
+
+  libinifile.dll   : (the C-library)
+  libinifile++.dll : (the C++-library)
+
+The C++ library shares some code with the C-library. Either use the C source
+code in the C++ library or build the C-library and add a dependency on it.
+
+No installation script exist, instead create a destination directory where 
+you copy to files into (or use the source code tree as is):
+
+  libinifile\
+     +-- include\
+     |      +-- inifile.h
+     |      +-- inifile++.hpp
+     |-- lib\
+     |      +-- inifile.lib
+     |      +-- inifile.dll
+     |      +-- inifile++.lib
+     |      +-- inifile++.dll
+     
+
+// Anders Lövgren, 2010-10-20

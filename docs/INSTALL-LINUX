@@ -1,0 +1,10 @@
+Installation on Linux and UNIX follows the standard procedure:
+
+  bash> ./configure --enable-cxx
+  bash> make
+  bash> sudo make install
+  
+This will install to /usr/local. Use --prefix to override the default
+installation prefix.
+
+// Anders Lövgren, 2010-10-20
