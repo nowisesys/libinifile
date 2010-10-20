@@ -70,8 +70,7 @@ const inifilepp::parser::entry * inifilepp::parser::next() const
 {
 	const entry *ent = reinterpret_cast<const entry *>(inifile_parse(inf));
 	if(!ent) {
-		const inierr *err = inifile_get_error(inf);
-		if(err) {
+		if(const inierr *err = inifile_get_error(inf)) {
 			throw exception(inf, err);
 		}
 	}

@@ -103,16 +103,14 @@ int inifile_set_option(struct inifile *inf, int option, const void *value)
 		}		
 	} else if(option == INIFILE_CHARS_COMMENT) {
 		const char *optval = (const char *)value;
-		inf->comment = realloc(inf->comment, strlen(optval) + 1);
-		if(!inf->comment) {
+		if((inf->comment = realloc(inf->comment, strlen(optval) + 1)) == NULL) {
 			inifile_set_error(inf, 0, 0, "failed alloc memory");
 			return -1;
 		}
 		strcpy(inf->comment, optval);
 	} else if(option == INIFILE_CHARS_ASSIGN) {
 		const char *optval = (const char *)value;
-		inf->assign = realloc(inf->assign, strlen(optval) + 1);
-		if(!inf->assign) {
+		if((inf->assign = realloc(inf->assign, strlen(optval) + 1)) == NULL) {
 			inifile_set_error(inf, 0, 0, "failed alloc memory");
 			return -1;
 		}

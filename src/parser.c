@@ -55,8 +55,7 @@ static char * putstr(char *buff, char ch)
 	}
 
 	if((pos % PUTSTR_CHUNK) == 0) {
-		buff = realloc(buff, pos + PUTSTR_CHUNK + 1);
-		if(!buff) {
+		if((buff = realloc(buff, pos + PUTSTR_CHUNK + 1)) == NULL) {
 			return NULL;
 		}
 	}
