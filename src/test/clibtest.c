@@ -42,7 +42,7 @@
 static void die(const char *prog, struct inifile *inf)
 {
 	const struct inierr *error = inifile_get_error(inf);
-	fprintf(stderr, "%s: %s(%d:%d): %s\n", prog, inf->file, error->line, error->pos, error->msg);
+	fprintf(stderr, "%s: %s(%lu:%lu): %s\n", prog, inf->file, error->line, error->pos, error->msg);
 	exit(1);
 }
 
