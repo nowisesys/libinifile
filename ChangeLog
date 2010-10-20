@@ -1,3 +1,11 @@
+0.6.0 (2010-10-20):
+      
+      * Ported library to Windows. Project files can be found in the
+        win32 directory.
+
+      * Fixed configure scripts for new version of autoconf & co.
+        Verified new version on Linux, fixed a few compiler warnings.
+
 0.5.5 (2010-06-02):
 
       * Updated build system to work with autoconf 2.63.
