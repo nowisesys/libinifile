@@ -75,7 +75,7 @@ int main(int argc, char **argv)
 				  << "val='"  << (ent->val  ? ent->val  : "") << "'\n";
 		}
 	} catch(parser::exception &e) {
-		std::cerr << prog << ": parse error at (" << e.line << "," << e.cpos << ")\n";
+		std::cerr << prog << ": parse error at [line:" << e.line << ", pos:" << e.cpos << "]: " << e.msg << "\n";
 		return 1;
 	}
 	
