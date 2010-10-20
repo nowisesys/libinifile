@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.61)
-AC_INIT(libinifile, 0.5.5, [Anders Lövgren <lespaul@algonet.se>])
-AM_INIT_AUTOMAKE(libinifile, 0.5.5)
+AC_INIT(libinifile, 0.6.0, [Anders Lövgren <lespaul@algonet.se>])
+AM_INIT_AUTOMAKE(libinifile, 0.6.0)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 
@@ -11,10 +11,12 @@ AC_CONFIG_HEADER([config.h])
 OPTFCC="$CFLAGS"
 OPTFPP="$CXXFLAGS"
 AC_PROG_INSTALL
-AC_PROG_RANLIB
 AC_PROG_LIBTOOL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
+AC_PROG_CC
+AC_PROG_CXX
+
 CFLAGS=""
 CXXFLAGS=""
 LIBINIFILE_CHECK_COMPILERS
