@@ -88,8 +88,8 @@ namespace inifilepp {
 		//
 		struct exception
 		{
-			unsigned int line;
-			unsigned int cpos;
+			size_t line;
+			size_t cpos;
 			std::string msg;
 			exception(inifile *, const inierr *);
 		};
