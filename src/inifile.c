@@ -44,42 +44,34 @@ int inifile_init(struct inifile *inf, const char *conf)
 	memset(inf, 0, sizeof(struct inifile));
 	
 	inf->file = conf;	
+	inf->options = INIFILE_DEFAULT_OPTIONS;
 
-	inf->fs = fopen(inf->file, "r");
-	if(!inf->fs) {
+	if((inf->fs = fopen(inf->file, "r")) == NULL) {
 		inifile_set_error(inf, 0, 0, "failed open %s", inf->file);
 		return -1;
 	}
 	
-	inf->entry = malloc(sizeof(struct inient));
-	if(!inf->entry) {
+	if((inf->entry = malloc(sizeof(struct inient))) == NULL) {
 		inifile_set_error(inf, 0, 0, "failed alloc memory");
 		return -1;
+	} else {
+		memset(inf->entry, 0, sizeof(struct inient));
 	}
-	inf->entry->sect = NULL;
-	inf->entry->key = NULL;
-	inf->entry->val = NULL;
 
-	inf->str = NULL;
-	inf->size = 0;
-	inf->len = 0;
+	if((inf->comment = malloc(strlen(INIFILE_DEFIDS_COMMENT) + 1)) == NULL) {
+		inifile_set_error(inf, 0, 0, "failed alloc memory");
+		return -1;
+	} else {
+		strcpy(inf->comment, INIFILE_DEFIDS_COMMENT);
+	}
 
-	inf->options = INIFILE_DEFAULT_OPTIONS;
-	
-	inf->comment = malloc(strlen(INIFILE_DEFIDS_COMMENT) + 1);
-	if(!inf->comment) {
+	if((inf->assign = malloc(strlen(INIFILE_DEFIDS_ASSIGN) + 1)) == NULL) {
 		inifile_set_error(inf, 0, 0, "failed alloc memory");
 		return -1;
+	} else {
+		strcpy(inf->assign, INIFILE_DEFIDS_ASSIGN);
 	}
-	strcpy(inf->comment, INIFILE_DEFIDS_COMMENT);
-	
-	inf->assign = malloc(strlen(INIFILE_DEFIDS_ASSIGN) + 1);
-	if(!inf->assign) {
-		inifile_set_error(inf, 0, 0, "failed alloc memory");
-		return -1;
-	}
-	strcpy(inf->assign, INIFILE_DEFIDS_ASSIGN);
-	
+
 	return 0;
 }
 
@@ -226,12 +218,10 @@ void inifile_set_error(struct inifile *inf,
 	char *buff;
 	
 	if(!inf->error) {
-		inf->error = malloc(sizeof(struct inierr));
-		if(!inf->error) {
+		if((inf->error = malloc(sizeof(struct inierr))) == NULL) {
 			return;
 		}
-		inf->error->msg = malloc(size);
-		if(!inf->error->msg) {
+		if((inf->error->msg = malloc(size)) == NULL) {
 			free(inf->error);
 			inf->error = NULL;
 			return;
