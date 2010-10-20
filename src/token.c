@@ -75,7 +75,7 @@ int token_get(struct inifile *inf, token_data *data)
 			/*
 			 * Treat all input as data inside quoted string.
 			 */
-			if(!strlen(inf->str) || data->pos == inf->len) {
+			if(!strlen(inf->str) || (ssize_t)data->pos == inf->len) {
 				data->curr = EOSTR;
 			} else if(isspace(inf->str[data->pos])) {
 				data->curr = WHITESP;
@@ -102,7 +102,7 @@ int token_get(struct inifile *inf, token_data *data)
 			data->curr = MLINE;
 			break;
 		default:
-			if(strlen(inf->str) == 0 || inf->str[data->pos] == 0 || data->pos == inf->len) {
+			if(strlen(inf->str) == 0 || inf->str[data->pos] == 0 || (ssize_t)data->pos == inf->len) {
 				data->curr = EOSTR;
 			} else if(isspace(inf->str[data->pos])) {
 				data->curr = WHITESP;
