@@ -60,7 +60,7 @@ ssize_t rpl_getdelim(char **buff, size_t *size, int delim, FILE *stream)
 		return -1;
 	}
 	
-	if(!size) {
+	if(size == NULL || buff == NULL) {
 		errno = EINVAL;
 		return -1;
 	}
@@ -92,5 +92,5 @@ ssize_t rpl_getdelim(char **buff, size_t *size, int delim, FILE *stream)
 		(*buff)[n++] = c;
 	}
 	
-	return (n == 0 && c == EOF) ? -1 : n;
+	return (c != delim || c == EOF) ? -1 : n;
 }
