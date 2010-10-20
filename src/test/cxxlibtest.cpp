@@ -51,21 +51,24 @@ using namespace inifilepp;
 int main(int argc, char **argv)
 {
 	const char *prog = basename(argv[0]);
+	const char *conf;
 	
 	if(argc != 2) {
 		std::cerr << "usage: " << prog << " <ini-file>\n";
 		return 1;
+	} else {
+		conf = argv[1];
 	}
 	
 	try {
-		parser p(argv[1]);
+		parser p(conf);
 		const parser::entry *ent;
 		
 		// 
-		// Use same options as equivalent C library test:
+		// Same options as the C library test:
 		// 
 		p.setopt(INIFILE_ASSIGN_INSIDE, 1);
-		p.setopt(INIFILE_ALLOW_QUOTE, 0);
+		p.setopt(INIFILE_ALLOW_QUOTE, 1);
 		p.setopt(INIFILE_ALLOW_MULTILINE, 1);
 		p.setopt(INIFILE_CHARS_COMMENT, "#");
 
@@ -75,7 +78,7 @@ int main(int argc, char **argv)
 				  << "val='"  << (ent->val  ? ent->val  : "") << "'\n";
 		}
 	} catch(parser::exception &e) {
-		std::cerr << prog << ": parse error at [line:" << e.line << ", pos:" << e.cpos << "]: " << e.msg << "\n";
+		std::cerr << prog << ": " << conf << "(" << e.line << ":" << e.cpos << "): " << e.msg << "\n";
 		return 1;
 	}
 	

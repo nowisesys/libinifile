@@ -39,10 +39,10 @@
 #endif
 #include <inifile.h>
 
-static void die(struct inifile *inf)
+static void die(const char *prog, struct inifile *inf)
 {
 	const struct inierr *error = inifile_get_error(inf);
-	fprintf(stderr, "%s(%d:%d): %s\n", inf->file, error->line, error->pos, error->msg);
+	fprintf(stderr, "%s: %s(%d:%d): %s\n", prog, inf->file, error->line, error->pos, error->msg);
 	exit(1);
 }
 
@@ -117,10 +117,10 @@ int main(int argc, char **argv)
 			       ent->sect, ent->key, ent->val);
 		}
 		if(inifile_get_error(&inf)) {
-			die(&inf);
+			die(prog, &inf);
 		}
 	} else {
-		die(&inf);
+		die(prog, &inf);
 	}
 	
 	inifile_free(&inf);
