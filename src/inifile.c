@@ -291,11 +291,11 @@ char * inifile_trim_str(char *str)
 	}
 	start = 0;
 	end = strlen(str);
-	
-	while(isspace(str[end - 1])) {
+
+	while(end > 0 && isspace(str[end - 1])) {
 		--end;
 	}
-	while(isspace(str[start])) {
+	while(start < end && isspace(str[start])) {
 		++start;
 	}
 	if(start > end) {
