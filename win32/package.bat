@@ -11,14 +11,22 @@ set zipcmd=C:\Program Files\7-Zip\7z.exe
 set libdir=vs2008\Release
 set srcdir=..\src
 set pkgdir=%pkgname%-%pkgvers%
+set topdir=..
 
 set incdir=%pkgdir%\include
 set lib32=%pkgdir%\x86
 set lib64=%pkgdir%\x64
 
+:: miscellanous:
+if not exist %pkgdir% mkdir %pkgdir%
+xcopy /y %libdir%\sample.conf %pkgdir%
+xcopy /y %topdir%\README %pkgdir%
+xcopy /y %topdir%\AUTHORS %pkgdir%
+xcopy /y %topdir%\ChangeLog %pkgdir%
+xcopy /y %topdir%\COPYING %pkgdir%
+
 :: headers:
 if not exist %incdir% mkdir %incdir%
-xcopy /y %libdir%\sample.conf %pkgdir%
 xcopy /y %srcdir%\inifile.h %incdir%
 xcopy /y %srcdir%\cxx\inifile++.hpp %incdir%
 
