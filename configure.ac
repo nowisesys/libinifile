@@ -3,9 +3,9 @@
 
 AC_PREREQ(2.61)
 AC_INIT(libinifile, 0.6.1, [Anders Lövgren <lespaul@algonet.se>])
-AM_INIT_AUTOMAKE(libinifile, 0.6.1)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
+AM_INIT_AUTOMAKE([subdir-objects])
 
 # Checks for programs.
 OPTFCC="$CFLAGS"

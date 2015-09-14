@@ -10,4 +10,4 @@ clibtest_LDADD = -L$(top_srcdir)/src/.libs -linifile
 cxxlibtest_SOURCES = cxxlibtest.cpp
 cxxlibtest_LDADD = -L$(top_srcdir)/src/cxx/.libs -linifile++
 
-INCLUDES = -I$(top_srcdir)/src -I$(top_srcdir)/src/cxx
+AM_CPPFLAGS = -I$(top_srcdir)/src -I$(top_srcdir)/src/cxx

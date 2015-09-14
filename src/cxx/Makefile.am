@@ -9,7 +9,7 @@ libinifile___la_SOURCES = \
 	inifile++.hpp inifile++.cpp 
 libinifile___la_LDFLAGS = -version-info 4:0:0 
 
-INCLUDES = -I$(top_srcdir)/src/cxx -I$(top_srcdir)/src
+AM_CPPFLAGS = -I$(top_srcdir)/src/cxx -I$(top_srcdir)/src
 
 library_includedir=$(includedir)
 library_include_HEADERS = inifile++.hpp
