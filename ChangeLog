@@ -1,3 +1,9 @@
+0.6.1 (2015-10-14):
+
+      * Support for 64-bit Windows with package script (win32/package.bat).
+      
+      * Clean compile on Linux using GLIBC >= 2.20
+
 0.6.0 (2010-10-20):
       
       * Ported library to Windows. Project files can be found in the
