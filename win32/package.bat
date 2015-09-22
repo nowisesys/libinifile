@@ -4,7 +4,7 @@
 :: Date:   2014-03-13
 
 set pkgname=libinifile
-set pkgvers=0.6.1
+set pkgvers=0.6.2
 
 set zipcmd=C:\Program Files\7-Zip\7z.exe
 
