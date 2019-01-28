@@ -1,3 +1,4 @@
-Makefile.* linguist-detectable=false
 * linguist-detectable=false
+*.in linguist-detectable=false
+*.am linguist-detectable=false
 src/* linguist-detectable=true
