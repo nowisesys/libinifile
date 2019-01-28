@@ -1,1 +1,2 @@
 Makefile.* linguist-detectable=false
+configure  linguist-detectable=false
