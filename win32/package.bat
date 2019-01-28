@@ -1,10 +1,10 @@
 :: Create package for release.
 :: 
-:: Author: Anders Lövgren
+:: Author: Anders LÃ¶vgren
 :: Date:   2014-03-13
 
 set pkgname=libinifile
-set pkgvers=0.6.2
+set pkgvers=0.6.3
 
 set zipcmd=C:\Program Files\7-Zip\7z.exe
 

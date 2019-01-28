@@ -1,5 +1,7 @@
 /* libinifile - library for parsing ini-style configuration files.
- * Copyright (C) 2008-2010 Anders L�vgren
+ * 
+ * Copyright (C) 2008-2018  Anders Lövgren, BMC-IT, Uppsala University
+ * Copyright (C) 2018-2019  Anders Lövgren, Nowise Systems
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

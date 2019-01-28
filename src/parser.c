@@ -1,5 +1,7 @@
 /* libinifile - C/C++ library for parsing ini-style configuration files.
- * Copyright (C) 2008-2010  Anders Lövgren, QNET/BMC Compdept, Uppsala University
+ *
+ * Copyright (C) 2008-2018  Anders LÃ¶vgren, BMC-IT, Uppsala University
+ * Copyright (C) 2018-2019  Anders LÃ¶vgren, Nowise Systems
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * ---
- * Send questions to: Anders Lövgren <lespaul@algonet.se>
+ * Send questions to: Anders LÃ¶vgren <andlov@nowise.se>
  */
 
 #define _GNU_SOURCE

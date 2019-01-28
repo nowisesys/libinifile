@@ -5,7 +5,7 @@ includedir=@includedir@
 
 Name: libinifile++
 Description: Library for parsing ini-style configuration files (C++ API).
-URL: http://www.algonet.se/~lespaul/proj/libinifile
+URL: https://nowise.se/oss/libinifile
 Version: @VERSION@
 Requires: 
 Libs: -L${libdir} -linifile++
