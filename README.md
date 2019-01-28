@@ -64,6 +64,6 @@ The above C++ should generate this result on this ini-fragment:
 Empty and commented lines are ignored. Currently the hash character ('#') 
 is recognized as comment begin and everthing after it is ignored.
 
-### PPROJECT:
+### PROJECT:
 
 See https://nowise.se/oss/libinifile for more examles.
