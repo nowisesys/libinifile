@@ -1,7 +1,7 @@
 inherit eutils libtool
 
 DESCRIPTION="C/C++ library with syntax validator for parsing ini-files"
-HOMEPAGE="http://www.algonet.se/~lespaul/proj/libinifile/"
+HOMEPAGE="http://nowise.se/oss/libinifile/"
 SRC_URI="http://www.algonet.se/~lespaul/proj/libinifile/${P}.tar.gz"
 
 LICENSE="GPL"

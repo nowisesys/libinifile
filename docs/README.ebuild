@@ -18,4 +18,4 @@ docs/libinifile.ebuild - Gentoo ebuild file for libinifile.
        bash$> emerge -a libinifile
        
        
-// Anders Lövgren, 2008-06-23
+// Anders LÃ¶vgren, 2008-06-23
